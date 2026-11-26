@@ -15,8 +15,8 @@ info:
   contact:
     name: Eng — Sociera (PRJ-CORP-2026-0000-CRM)
 servers:
-  - url: https://api.fbsosociera.com.br
-    description: Base de homologação/produção a confirmar (domínio fbsosociera.com.br)
+  - url: http://localhost:8080
+    description: Base local de dev; homolog/produção a confirmar (domínio fbsosociera.com.br)
 tags:
   - name: leads
     description: Ingestão e consulta de leads
@@ -169,7 +169,7 @@ components:
       description: Machine-to-machine (portal → Sociera). O `tenant_id` vem das claims do token JWT.
       flows:
         clientCredentials:
-          tokenUrl: https://auth.fbsosociera.com.br/realms/sociera/protocol/openid-connect/token
+          tokenUrl: http://localhost:8080/realms/sociera/protocol/openid-connect/token
           scopes:
             lead:write: Enviar leads ao Sociera
     OAuth2Bearer:
@@ -195,93 +195,93 @@ components:
           type: string
           minLength: 2
           maxLength: 200
-          example: "Maria Souza"
+          examples: ["Maria Souza"]
         email:
           type: string
           format: email
           maxLength: 254
           description: E-mail de contato — chave de deduplicação por tenant.
-          example: "maria.souza@empresa.com.br"
+          examples: ["maria.souza@empresa.com.br"]
         phone:
           type: string
           maxLength: 20
           description: Telefone (opcional) — normalizado em E.164 no backend (não é chave de dedup isolada).
-          example: "+5511999990000"
+          examples: ["+5511999990000"]
         company:
           type: string
           maxLength: 200
-          example: "Empresa Exemplo Ltda"
+          examples: ["Empresa Exemplo Ltda"]
         tax_id:
           type: string
           maxLength: 18
           description: CPF/CNPJ do contato/empresa (qualificação B2B — opcional).
-          example: "12.345.678/0001-90"
+          examples: ["12.345.678/0001-90"]
         company_size:
           $ref: "#/components/schemas/CompanySize"
         role:
           type: string
           maxLength: 100
           description: Cargo do contato (roteamento SDR × Closer).
-          example: "CFO"
+          examples: ["CFO"]
         interest:
           $ref: "#/components/schemas/Interest"
         message:
           type: string
           maxLength: 2000
-          example: "Quero saber mais sobre o plano de CRM."
+          examples: ["Quero saber mais sobre o plano de CRM."]
         source:
           type: string
           maxLength: 200
           description: utm_source.
-          example: "google"
+          examples: ["google"]
         medium:
           type: string
           maxLength: 200
           description: utm_medium.
-          example: "cpc"
+          examples: ["cpc"]
         campaign:
           type: string
           maxLength: 200
           description: utm_campaign.
-          example: "q4-crm-lancamento"
+          examples: ["q4-crm-lancamento"]
         utm_term:
           type: string
           maxLength: 200
-          example: "crm-b2b"
+          examples: ["crm-b2b"]
         utm_content:
           type: string
           maxLength: 200
-          example: "banner-home"
+          examples: ["banner-home"]
         landing_page_url:
           type: string
           format: uri
           maxLength: 2048
           description: URL de aterrissagem (ROI de anúncios).
-          example: "https://fbso.com.br/solucoes/sociera"
+          examples: ["https://fbso.com.br/solucoes/sociera"]
         referrer:
           type: string
           format: uri
           maxLength: 2048
-          example: "https://www.google.com"
+          examples: ["https://www.google.com"]
         consent:
           type: boolean
           description: Consentimento LGPD (art. 7º-I). Deve ser `true` — `false` rejeita (400).
-          example: true
+          examples: [true]
         consent_version:
           type: string
           maxLength: 20
           description: Versão do termo de privacidade aceito (evidência LGPD).
-          example: "v1.2-2026"
+          examples: ["v1.2-2026"]
         consent_timestamp:
           type: string
           format: date-time
           description: Data/hora do aceite do termo (evidência LGPD).
-          example: "2026-11-26T14:30:00Z"
+          examples: ["2026-11-26T14:30:00Z"]
         ip_address:
           type: string
           format: ipv4
           description: IP de origem (evidência LGPD — opcional).
-          example: "189.15.22.10"
+          examples: ["189.15.22.10"]
     Lead:
       type: object
       description: Lead persistido no Sociera.
@@ -289,77 +289,77 @@ components:
       properties:
         id:
           type: string
-          example: "LEAD-0001"
+          examples: ["LEAD-0001"]
         status:
           type: string
           enum: [NEW, QUALIFIED, IN_PROGRESS, CONVERTED, LOST]
-          example: "NEW"
+          examples: ["NEW"]
         name:
           type: string
-          example: "Maria Souza"
+          examples: ["Maria Souza"]
         email:
           type: string
-          example: "maria.souza@empresa.com.br"
+          examples: ["maria.souza@empresa.com.br"]
         phone:
           type: string
-          example: "+5511999990000"
+          examples: ["+5511999990000"]
         company:
           type: string
-          example: "Empresa Exemplo Ltda"
+          examples: ["Empresa Exemplo Ltda"]
         tax_id:
           type: string
-          example: "12.345.678/0001-90"
+          examples: ["12.345.678/0001-90"]
         company_size:
           $ref: "#/components/schemas/CompanySize"
         role:
           type: string
-          example: "CFO"
+          examples: ["CFO"]
         interest:
           $ref: "#/components/schemas/Interest"
         message:
           type: string
-          example: "Quero saber mais sobre o plano de CRM."
+          examples: ["Quero saber mais sobre o plano de CRM."]
         source:
           type: string
-          example: "google"
+          examples: ["google"]
         medium:
           type: string
-          example: "cpc"
+          examples: ["cpc"]
         campaign:
           type: string
-          example: "q4-crm-lancamento"
+          examples: ["q4-crm-lancamento"]
         utm_term:
           type: string
-          example: "crm-b2b"
+          examples: ["crm-b2b"]
         utm_content:
           type: string
-          example: "banner-home"
+          examples: ["banner-home"]
         landing_page_url:
           type: string
-          example: "https://fbso.com.br/solucoes/sociera"
+          examples: ["https://fbso.com.br/solucoes/sociera"]
         referrer:
           type: string
-          example: "https://www.google.com"
+          examples: ["https://www.google.com"]
         consent:
           type: boolean
-          example: true
+          examples: [true]
         consent_version:
           type: string
-          example: "v1.2-2026"
+          examples: ["v1.2-2026"]
         consent_timestamp:
           type: string
           format: date-time
-          example: "2026-11-26T14:30:00Z"
+          examples: ["2026-11-26T14:30:00Z"]
         ip_address:
           type: string
-          example: "189.15.22.10"
+          examples: ["189.15.22.10"]
         created_at:
           type: string
           format: date-time
-          example: "2026-11-26T14:30:01Z"
+          examples: ["2026-11-26T14:30:01Z"]
         href:
           type: string
-          example: "https://app.fbsosociera.com.br/leads/LEAD-0001"
+          examples: ["https://app.fbsosociera.com.br/leads/LEAD-0001"]
     LeadCollection:
       type: object
       required: [items, total]
@@ -370,23 +370,23 @@ components:
             $ref: "#/components/schemas/Lead"
         total:
           type: integer
-          example: 128
+          examples: [128]
         limit:
           type: integer
-          example: 20
+          examples: [20]
         offset:
           type: integer
-          example: 0
+          examples: [0]
     Error:
       type: object
       required: [code, message]
       properties:
         code:
           type: string
-          example: "ERR_VALIDATION_FAILED"
+          examples: ["ERR_VALIDATION_FAILED"]
         message:
           type: string
-          example: "Campo obrigatório ausente ou inválido."
+          examples: ["Campo obrigatório ausente ou inválido."]
         details:
           type: string
-          example: "O consentimento exige consent_version e consent_timestamp."
+          examples: ["O consentimento exige consent_version e consent_timestamp."]
