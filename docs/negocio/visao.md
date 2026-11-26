@@ -1,11 +1,11 @@
-# 🎯 Visão — FBSO CRM
+# 🎯 Visão — Sociera by FBSO
 
-> CRM próprio (simples) da FBSO Technology Solutions. Fonte de origem: `.temporaria/ideias/crm/`
+> Sociera — CRM próprio (simples) da FBSO Technology Solutions. Fonte de origem: `.temporaria/ideias/crm/`
 > (`PLANO-IMPLEMENTACAO-FBSO-CRM.md` · `FBSO CRM - IDEIAS - 0001.md`), conformado.
 
 ## 1. O que é
 
-CRM próprio (simples) — produto SaaS multi-tenant. Núcleo de relacionamento (pessoas,
+Sociera — produto SaaS multi-tenant (CRM). Núcleo de relacionamento (pessoas,
 organizações e papéis), funil comercial e, em evolução, atendimento (tickets/SLA). Primeira
 validação: operação comercial da **FBSO Tech Services**; em seguida, hub de relacionamento e
 integração dos SaaS **Educatio**, **Fiscalia**, **Mercator** e **Materiae**.

@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0007` — Atividades e Interações |
 | B-REQs atendidas | B-REQ-05 |
 | Features | 3 — `FEATURE-0007.0001` … `FEATURE-0007.0003` |

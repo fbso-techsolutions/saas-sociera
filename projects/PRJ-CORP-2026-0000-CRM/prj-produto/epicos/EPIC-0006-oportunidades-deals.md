@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0006` — Gestão de Oportunidades (Deals) |
 | B-REQs atendidas | B-REQ-04 |
 | Features | 3 — `FEATURE-0006.0001` … `FEATURE-0006.0003` |

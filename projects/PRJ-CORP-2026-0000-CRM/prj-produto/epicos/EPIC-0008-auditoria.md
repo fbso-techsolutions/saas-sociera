@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0008` — Auditoria |
 | B-REQs atendidas | B-REQ-07 |
 | Features | 1 — `FEATURE-0008.0001` |

@@ -2,14 +2,14 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO-CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Solicitante | FBSO Technology Solutions |
 | Origem | [PENDENCY-0018 do portal-fbso](https://github.com/fbso-techsolutions/portal-fbso) — "CRM próprio (simples), novo produto" |
 | Status | ✅ Registrada (2026-11-26) |
 
 ## 1. O que se pede
 
-Criar o **CRM próprio (simples)** da FBSO Technology Solutions — SaaS multi-tenant. Núcleo de
+Criar a **Sociera** — CRM próprio (simples) da FBSO Technology Solutions — SaaS multi-tenant. Núcleo de
 relacionamento (pessoas, organizações, papéis), funil comercial (pipeline + oportunidades) e, em
 evolução, atendimento (tickets/SLA). Primeiro cliente: a própria **FBSO Tech Services**.
 

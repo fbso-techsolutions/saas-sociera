@@ -1,11 +1,11 @@
-# PRJ-CORP-2026-0000-CRM — FBSO CRM
+# PRJ-CORP-2026-0000-CRM — Sociera
 
-Projeto de criação do **FBSO CRM** — CRM próprio (simples) da FBSO Technology Solutions
+Projeto de criação da **Sociera** — CRM próprio (simples) da FBSO Technology Solutions
 (multi-tenant), primeira validação na FBSO Tech Services.
 
 | Item | Valor |
 |---|---|
-| Produto | [FBSO CRM](../../docs/negocio/visao.md) |
+| Produto | [Sociera](../../docs/negocio/visao.md) |
 | PRD | [PRD.md](PRD.md) |
 
 ## Releases / Fases

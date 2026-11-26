@@ -1,4 +1,4 @@
-# 🎯 INTENT — FBSO CRM
+# 🎯 INTENT — Sociera by FBSO
 
 > **O que este repositório é, por que existe e para onde vai.** Leitura obrigatória para qualquer
 > agente (IA ou humano) antes de tocar em qualquer arquivo. Processo vive em [AGENTS.md](AGENTS.md)
@@ -6,8 +6,8 @@
 
 ## 1. O que é
 
-CRM próprio (simples) da **FBSO Technology Solutions** — produto SaaS multi-tenant. Núcleo de
-relacionamento (pessoas, organizações e papéis), funil comercial e, em evolução, atendimento
+Sociera — CRM próprio (simples) da **FBSO Technology Solutions** — produto SaaS multi-tenant.
+Núcleo de relacionamento (pessoas, organizações e papéis), funil comercial e, em evolução, atendimento
 (tickets/SLA). Primeira validação: operação comercial da **FBSO Tech Services** (dogfooding);
 depois, hub de relacionamento e integração dos SaaS **Educatio**, **Fiscalia**, **Mercator** e
 **Materiae**.
@@ -41,8 +41,8 @@ React + TS (web) · Keycloak auto-hospedado.
 
 ## 5. Decisões ainda abertas
 
-1. **Nome de marca** do CRM (hoje "FBSO CRM"; a família usa marcas — Educatio, Mercator…).
-2. **Domínio próprio** (ADR-002 de domínios não cobre o CRM ainda).
-3. **Kestra** — componente novo de plataforma; exige ADR antes de entrar no MVP.
-4. **Mensageria dedicada** (Kafka/RabbitMQ/Redis) — adiada; guardrail manda Outbox no monólito.
-5. **Frontend mobile** — React Native (evolução); pasta reservada em `frontend/mobile/`.
+1. ✅ ~~Nome de marca~~ — **Sociera** (2026-11-26).
+2. ✅ ~~Domínio próprio~~ — **sociera.com.br** (2026-11-26).
+3. `[ ]` **Kestra** — componente novo de plataforma; exige ADR antes de entrar no MVP.
+4. ✅ ~~Mensageria dedicada~~ — Outbox + scheduler + webhook HTTP, sem broker ([ADR-004](docs/tecnico/arquitetura/adrs/adr-004-mensageria-outbox-scheduler.md)).
+5. `[ ]` **Frontend mobile** — React Native (evolução); pasta reservada em `frontend/mobile/`.

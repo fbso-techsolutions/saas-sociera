@@ -1,6 +1,6 @@
 # ⚙️ Técnico do produto — o COMO
 
-> Arquitetura, domínio, segurança e integrações — viabilidade técnica persistente do FBSO CRM.
+> Arquitetura, domínio, segurança e integrações — viabilidade técnica persistente da Sociera.
 
 | Item | Conteúdo | Status |
 |---|---|---|

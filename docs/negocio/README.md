@@ -1,6 +1,6 @@
 # 💼 Negócio do produto — o POR QUÊ
 
-> Definição persistente de negócio do FBSO CRM (o que o produto É no negócio).
+> Definição persistente de negócio da Sociera (o que o produto É no negócio).
 
 | Documento | Conteúdo | Status |
 |---|---|---|

@@ -1,6 +1,6 @@
-# FBSO CRM
+# Sociera by FBSO
 
-> **CRM próprio da FBSO — relacionamento, vendas e atendimento do ecossistema.**
+> **Sociera — relacionamento, vendas e atendimento do ecossistema.**
 
 SaaS CRM multi-tenant. Núcleo de relacionamento (pessoas, organizações, papéis), funil
 comercial e, em evolução, atendimento (tickets/SLA). Primeira validação: operação comercial da

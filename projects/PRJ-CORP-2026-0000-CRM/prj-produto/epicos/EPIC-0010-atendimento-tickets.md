@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0010` — Atendimento (Tickets) |
 | B-REQs atendidas | B-REQ-08 |
 | Features | 3 — `FEATURE-0010.0001` … `FEATURE-0010.0003` |

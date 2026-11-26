@@ -1,6 +1,6 @@
 # 🗂️ Produto: o QUÊ
 
-Nível **produto** do FBSO CRM: o que o produto faz, independentemente de projeto.
+Nível **produto** da Sociera: o que o produto faz, independentemente de projeto.
 
 ## Catálogo de capacidades
 

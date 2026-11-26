@@ -1,11 +1,11 @@
-# 👥 Equipe do Projeto — FBSO CRM
+# 👥 Equipe do Projeto — Sociera
 
 > **Fonte única de pessoas e papéis** do projeto. Regra da casa: **aponta, não copia** — o detalhe
 > de cada decisão vive no [hub de pendências](pendencias.md).
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Status | ✅ squad definido e alocado (nomes + % em §2/§3) |
 | Atualizado | 2026-11-26 |
 
@@ -43,7 +43,7 @@
 | Infraestrutura / Cloud | Lourival Louro | 25 | deploy, CI/CD, ambiente |
 | QA / Testes | Patricia Varra | 25 | plano de testes, isolamento multi-tenant |
 | Segurança da Informação | Daniel Vini | sob demanda | baseline, LGPD |
-| Comercial | Ursula Companero | sob demanda | produto/mercado (dono da PENDENCY-0001) |
+| Comercial | Ursula Companero | sob demanda | produto/mercado |
 
 > **Capacidade fixa por sprint (2 semanas · 10 dias úteis):** ~55 dias-homem — 5 papéis a 100%
 > (50) + Infra/QA a 25% (5). Papéis "sob demanda" não entram na capacidade fixa.

@@ -1,4 +1,4 @@
-# 🔗 Matriz de Rastreabilidade — FBSO CRM
+# 🔗 Matriz de Rastreabilidade — Sociera
 
 > **O que é:** fonte única da cadeia **B-REQ → Épico → Feature → Story → Sprint → Task →
 > Release/Build/Deploy** (e vice-versa). **Aponta, não copia:** cada célula é um ID/link; a

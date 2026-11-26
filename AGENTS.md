@@ -1,4 +1,4 @@
-# 🤖 AGENTS — Regras de operação (FBSO CRM)
+# 🤖 AGENTS — Regras de operação (Sociera)
 
 > Regras de trabalho **neste repositório**. A constituição da org vive na
 > [`platform-standards`](https://github.com/fbso-techsolutions/platform-standards) — **linke, não

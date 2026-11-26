@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0003` — Cadastro de Parties |
 | B-REQs atendidas | B-REQ-02 |
 | Features | 3 — `FEATURE-0003.0001` … `FEATURE-0003.0003` |

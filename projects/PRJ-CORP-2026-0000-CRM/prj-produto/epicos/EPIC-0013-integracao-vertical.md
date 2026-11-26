@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0013` — Integração Vertical (primeiro SaaS) |
 | B-REQs atendidas | B-REQ-09 |
 | Features | 3 — `FEATURE-0013.0001` … `FEATURE-0013.0003` |

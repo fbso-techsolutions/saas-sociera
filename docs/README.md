@@ -1,4 +1,4 @@
-# 📚 docs — FBSO CRM
+# 📚 docs — Sociera
 
 > **Produto** — visão, negócio, domínio, arquitetura, segurança (persistente). Fonte de origem:
 > plano em `.temporaria/ideias/crm/` (conformado nestes documentos).

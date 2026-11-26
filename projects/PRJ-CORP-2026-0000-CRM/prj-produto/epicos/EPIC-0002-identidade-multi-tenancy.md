@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0002` — Identidade e Multi-tenancy |
 | B-REQs atendidas | B-REQ-01 |
 | Features | 4 — `FEATURE-0002.0001` … `FEATURE-0002.0004` |

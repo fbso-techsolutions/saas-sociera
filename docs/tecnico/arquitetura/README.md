@@ -1,4 +1,4 @@
-# 🏗️ Arquitetura — FBSO CRM
+# 🏗️ Arquitetura — Sociera
 
 > Viabilidade técnica persistente. Fonte: `.temporaria/ideias/crm/`, conformada à `platform-standards`.
 

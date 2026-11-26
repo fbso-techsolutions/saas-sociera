@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0001` — Fundação e Engenharia |
 | B-REQs atendidas | — (enabler de habilitação) |
 | Features | 4 — `FEATURE-0001.0001` … `FEATURE-0001.0004` |

@@ -8,7 +8,7 @@
 
 ## 1. Objetivo do projeto
 
-Criar o **CRM próprio (simples)** da FBSO Technology Solutions — SaaS multi-tenant — começando
+Criar a **Sociera** — CRM próprio (simples) da FBSO Technology Solutions — SaaS multi-tenant — começando
 pelo núcleo de relacionamento (Party/Roles), funil comercial (Pipeline/Deals), tarefas/interações,
 auditoria e **ingestão de leads do portal** (desbloqueia `portal-fbso` FEATURE-0006.0003). A
 primeira validação é a operação comercial da **FBSO Tech Services** (dogfooding).

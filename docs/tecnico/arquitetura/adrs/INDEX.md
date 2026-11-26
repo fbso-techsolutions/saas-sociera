@@ -1,7 +1,7 @@
-# 📇 ADRs — Architecture Decision Records (FBSO CRM)
+# 📇 ADRs — Architecture Decision Records (Sociera)
 
 > **Um arquivo por decisão** (`adr-<número>-<slug>.md`), índice único. Decisões **do produto**
-> FBSO CRM. Decisões transversais da plataforma vivem em
+> Sociera. Decisões transversais da plataforma vivem em
 > [platform-standards/governance/adrs/](https://github.com/fbso-techsolutions/platform-standards/tree/main/governance/adrs).
 
 | ID | Decisão | Status | Data | Arquivo |

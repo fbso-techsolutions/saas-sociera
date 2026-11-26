@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0016` — IA aplicada ao CRM |
 | B-REQs atendidas | B-REQ-11 |
 | Features | 2 — `FEATURE-0016.0001` · `FEATURE-0016.0002` |

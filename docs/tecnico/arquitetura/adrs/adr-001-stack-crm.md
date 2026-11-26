@@ -1,4 +1,4 @@
-# ADR-001 - Stack do FBSO CRM (Java 25 · PostgreSQL 17+ · Keycloak · Flyway)
+# ADR-001 - Stack da Sociera (Java 25 · PostgreSQL 17+ · Keycloak · Flyway)
 
 | Campo | Conteúdo |
 |---|---|

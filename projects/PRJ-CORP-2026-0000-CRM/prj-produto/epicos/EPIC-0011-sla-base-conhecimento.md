@@ -2,7 +2,7 @@
 
 | Campo | Valor |
 |---|---|
-| Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
+| Projeto | Sociera · PRJ-CORP-2026-0000-CRM |
 | Épico | `EPIC-0011` — SLA e Base de Conhecimento |
 | B-REQs atendidas | B-REQ-08 |
 | Features | 3 — `FEATURE-0011.0001` … `FEATURE-0011.0003` |
