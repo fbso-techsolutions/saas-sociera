@@ -32,8 +32,8 @@ consumindo a `platform-standards`. Frontend dividido em `frontend/web/` +
 
 - **Não** inventar IDs, donos, datas ou escopo — usar `— (a preencher)`.
 - **Não** alterar `platform-standards/` sem decisão explícita (registrar ADR/pendência).
-- O plano de `.temporaria/ideias/crm/` já foi **conformado** em `docs/` (IDs `EPIC-{NNNN}`,
-  stack Java 25 · PostgreSQL 17+ · Flyway · Keycloak, referências a `platform-standards`).
+- O plano original já foi **conformado** em `docs/` (IDs `EPIC-{NNNN}`, stack Java 25 ·
+  PostgreSQL 17+ · Flyway · Keycloak, referências a `platform-standards`).
   Futuras importações seguem o mesmo processo — nunca importar cru.
 
 ## 5. Stack do código (ao implementar)

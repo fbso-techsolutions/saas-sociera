@@ -1,7 +1,6 @@
 # 🎯 Visão — Sociera by FBSO
 
-> Sociera — CRM próprio (simples) da FBSO Technology Solutions. Fonte de origem: `.temporaria/ideias/crm/`
-> (`PLANO-IMPLEMENTACAO-FBSO-CRM.md` · `FBSO CRM - IDEIAS - 0001.md`), conformado.
+> Sociera — CRM próprio (simples) da FBSO Technology Solutions.
 
 ## 1. O que é
 

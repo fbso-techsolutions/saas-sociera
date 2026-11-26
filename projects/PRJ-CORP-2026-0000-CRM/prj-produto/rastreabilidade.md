@@ -48,4 +48,4 @@
 | 💡 | B-REQ-11 | [EPIC-0016 — IA aplicada ao CRM](epicos/EPIC-0016-ia-aplicada.md) | `FEATURE-0016.0001 · 0016.0002` | [saas-crm](../../../README.md) | — | — | — | — | — |
 
 > **Legado → novo:** `EP-01→EPIC-0001 … EP-08→EPIC-0008`; `EPIC-0009` = novo (ingestão de leads);
-> `EP-09→EPIC-0010 … EP-15→EPIC-0016` (plano `.temporaria/ideias/crm/`).
+> `EP-09→EPIC-0010 … EP-15→EPIC-0016`.

@@ -1,8 +1,8 @@
 # 🧬 Modelo de domínio — Party Model
 
-> Núcleo agnóstico: evita cadastros isolados e rígidos por tipo de participante. Fonte:
-> `.temporaria/ideias/crm/` (modelo SQL é referência inicial, não modelo físico pronto).
-> Refinado a partir das sugestões ao plano (pipeline em tabela própria, atividades, RLS).
+> Núcleo agnóstico: evita cadastros isolados e rígidos por tipo de participante. O modelo SQL é
+> referência inicial, não modelo físico pronto. Refinado a partir das sugestões ao plano (pipeline
+> em tabela própria, atividades, RLS).
 
 ## Entidades iniciais
 

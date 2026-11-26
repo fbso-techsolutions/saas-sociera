@@ -32,6 +32,5 @@ evolução, atendimento (tickets/SLA). Primeiro cliente: a própria **FBSO Tech 
 ## 4. Contexto e referências
 
 - Gatilho imediato: `portal-fbso` [FEATURE-0006.0003 — Integração CRM](https://github.com/fbso-techsolutions/portal-fbso) (leads do portal → CRM).
-- Levantamento: `.temporaria/ideias/crm/` (`FBSO CRM - IDEIAS - 0001.md` · `PLANO-IMPLEMENTACAO-FBSO-CRM.md`).
 
 > Detalhes completos no [INTENT.md](../../../INTENT.md) e na [visão](../../../docs/negocio/visao.md).

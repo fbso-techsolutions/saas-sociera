@@ -1,7 +1,6 @@
 # 📚 docs — Sociera
 
-> **Produto** — visão, negócio, domínio, arquitetura, segurança (persistente). Fonte de origem:
-> plano em `.temporaria/ideias/crm/` (conformado nestes documentos).
+> **Produto** — visão, negócio, domínio, arquitetura, segurança (persistente).
 
 | Área | Conteúdo | Status |
 |---|---|---|

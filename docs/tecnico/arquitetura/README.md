@@ -1,6 +1,6 @@
 # 🏗️ Arquitetura — Sociera
 
-> Viabilidade técnica persistente. Fonte: `.temporaria/ideias/crm/`, conformada à `platform-standards`.
+> Viabilidade técnica persistente, conformada à `platform-standards`.
 
 ## 1. Visão lógica
 

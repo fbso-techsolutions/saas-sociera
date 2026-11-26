@@ -10,8 +10,7 @@ comercial e, em evolução, atendimento (tickets/SLA). Primeira validação: ope
 ## Status
 
 🚧 **Em planejamento** — repositório esqueleto. Estrutura criada; desenvolvimento ainda não
-iniciado. Fonte de produto: [`docs/`](docs/README.md) — conformada a partir do plano em
-`.temporaria/ideias/crm/`.
+iniciado. Fonte de produto: [`docs/`](docs/README.md).
 
 ## Onde está o quê
 

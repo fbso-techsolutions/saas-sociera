@@ -3,8 +3,7 @@
 > Versão: 0.1 (rascunho) | Status: 📝 Em formação
 >
 > Este PRD cobre o **escopo do projeto**. A **visão do produto** vive em
-> [docs/negocio/visao.md](../../docs/negocio/visao.md). Fonte de origem:
-> `.temporaria/ideias/crm/` (conformado).
+> [docs/negocio/visao.md](../../docs/negocio/visao.md).
 
 ## 1. Objetivo do projeto
 
