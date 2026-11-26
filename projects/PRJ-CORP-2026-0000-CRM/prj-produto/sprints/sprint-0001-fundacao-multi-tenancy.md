@@ -98,7 +98,7 @@ operável. Esta sprint destrava todo o restante do MVP.
 
 ### 5.2 Definition of Done (DoD)
 
-**Referência:** DoD do projeto a definir em `docs/` — padrão mínimo: card com AC validados + evidência (PR/teste) + smoke test.
+**Referência:** [DoD do projeto](../../../../docs/tecnico/dod.md) — padrão compartilhado (código, testes, review, CI verde, evidência, multi-tenant).
 
 ## 10. Decisões pendentes deste documento
 

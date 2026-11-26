@@ -5,6 +5,7 @@
 | Item | Conteúdo | Status |
 |---|---|---|
 | [domain.md](domain.md) | Modelo de domínio — Party Model e entidades | 📝 Rascunho |
+| [dod.md](dod.md) | Definition of Done — padrão compartilhado de qualidade | ✅ |
 | [arquitetura/](arquitetura/README.md) | Visão lógica, stack, responsabilidades, multi-tenancy, eventos | 📝 Rascunho |
 | [arquitetura/adrs/](arquitetura/adrs/INDEX.md) | ADRs do produto — decisões arquiteturais | ✅ 4 decididas |
 
