@@ -3,8 +3,8 @@
 | Campo | Valor |
 |---|---|
 | **Categoria** | Infraestrutura |
-| **Origem** | EPIC-0001 — Fundação e Engenharia (Fase 0) |
-| **Habilita** | FEATURE-0002.0001 (auth) · FEATURE-0002.0004 (RLS) · FEATURE-0003.0001 (Parties) |
+| **Origem** | [EPIC-0001 — Fundação e Engenharia](../../prj-produto/epicos/EPIC-0001-fundacao-engenharia.md) (Fase 0) |
+| **Habilita** | [FEATURE-0002.0001](../../prj-produto/features/FEATURE-0002.0001-autenticacao-oidc.md) (auth) · [FEATURE-0002.0004](../../prj-produto/features/FEATURE-0002.0004-segregacao-multi-tenant.md) (RLS) |
 | **Depende de** | ENABLER-0001 (estrutura) |
 | **Dono sugerido** | Lourival Louro (Infra) |
 | **Estimativa (Job Size)** | 3 |

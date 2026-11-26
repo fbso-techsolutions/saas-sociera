@@ -3,7 +3,7 @@
 | Campo | Valor |
 |---|---|
 | **Categoria** | Infraestrutura |
-| **Origem** | EPIC-0001 — Fundação e Engenharia (Fase 0) |
+| **Origem** | [EPIC-0001 — Fundação e Engenharia](../../prj-produto/epicos/EPIC-0001-fundacao-engenharia.md) (Fase 0) |
 | **Habilita** | todas as features (gate de qualidade antes do merge) |
 | **Depende de** | ENABLER-0001 (estrutura) |
 | **Dono sugerido** | Romeu Augusto (Tech Lead) |

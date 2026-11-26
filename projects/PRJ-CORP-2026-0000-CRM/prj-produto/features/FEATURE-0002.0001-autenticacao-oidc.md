@@ -9,7 +9,7 @@
 | **Requisitos** | B-REQ-01 |
 | **Depende de** | ENABLER-0002 (ambientes) |
 | **Entra depois** | FEATURE-0002.0002 (contexto de tenant) · FEATURE-0002.0003 (RBAC) |
-| **User stories** | [US-0001](...) · [US-0002](...) |
+| **User stories** | [US-0001](../user-stories/US-FEAT-0002.0001-0001-realm-client-keycloak.md) · [US-0002](../user-stories/US-FEAT-0002.0001-0002-autenticacao-oidc-backend.md) |
 | **🔒 Travada por** | — (livre) |
 | **Status** | ✅ Revisado (2026-11-26) |
 
@@ -40,8 +40,8 @@ identidade que é a base do contexto de tenant e do controle de acesso.
 
 | ID | História | Critérios |
 |---|---|---|
-| `US-FEAT-0002.0001-0001` | Configurar realm e client Keycloak | 2 AC |
-| `US-FEAT-0002.0001-0002` | Autenticar via OIDC no backend | 3 AC |
+| [US-FEAT-0002.0001-0001](../user-stories/US-FEAT-0002.0001-0001-realm-client-keycloak.md) | Configurar realm e client Keycloak | 2 AC |
+| [US-FEAT-0002.0001-0002](../user-stories/US-FEAT-0002.0001-0002-autenticacao-oidc-backend.md) | Autenticar via OIDC no backend | 3 AC |
 
 ## 7. Critérios de aceite da feature (DoD)
 

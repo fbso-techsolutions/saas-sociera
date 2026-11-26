@@ -23,12 +23,12 @@
 
 ## 3. Features derivadas
 
-| Feature | Título | Stories |
+| Item | Título | Status |
 |---|---|---|
-| `FEATURE-0001.0001` | Repositório e estrutura monorepo | — (sem card) |
-| `FEATURE-0001.0002` | Ambientes locais (Docker Compose) | — (sem card) |
-| `FEATURE-0001.0003` | Padrões de código e CI | — (sem card) |
-| `FEATURE-0001.0004` | ADRs de decisões arquiteturais | — (sem card) |
+| [ENABLER-0001](../../prj-tecnico/enablers/ENABLER-0001-repositorio-estrutura.md) | Repositório e estrutura monorepo | Sprint 1 |
+| [ENABLER-0002](../../prj-tecnico/enablers/ENABLER-0002-ambientes-locais.md) | Ambientes locais (Docker Compose) | Sprint 1 |
+| [ENABLER-0003](../../prj-tecnico/enablers/ENABLER-0003-ci-github-actions.md) | Padrões de código e CI | Sprint 1 |
+| [ADR-001…004](../../../../docs/tecnico/arquitetura/adrs/INDEX.md) | ADRs de decisões arquiteturais | ✅ feito |
 
 ## 4. Decisões pendentes
 

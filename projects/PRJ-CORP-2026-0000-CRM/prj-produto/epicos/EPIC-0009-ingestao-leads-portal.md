@@ -26,9 +26,9 @@
 
 | Feature | Título | Stories |
 |---|---|---|
-| `FEATURE-0009.0001` | Contrato de solução (OpenAPI + SDK + webhook) | — (sem card) |
-| `FEATURE-0009.0002` | Endpoint de ingestão de lead | — (sem card) |
-| `FEATURE-0009.0003` | Mapeamento de campos + origem de aquisição | — (sem card) |
+| [FEATURE-0009.0001 — Contrato de solução](../features/FEATURE-0009.0001-contrato-solucao-lead.md) | Contrato de solução (OpenAPI + SDK + webhook) | — (a criar) |
+| [FEATURE-0009.0002 — Endpoint de ingestão](../features/FEATURE-0009.0002-endpoint-ingestao-lead.md) | Endpoint de ingestão de lead | — (a criar) |
+| [FEATURE-0009.0003 — Mapeamento](../features/FEATURE-0009.0003-mapeamento-campos-origem.md) | Mapeamento de campos + origem de aquisição | — (a criar) |
 
 ## 4. Decisões pendentes
 

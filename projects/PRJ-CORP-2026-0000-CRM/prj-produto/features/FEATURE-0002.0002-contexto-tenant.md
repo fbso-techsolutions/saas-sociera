@@ -9,7 +9,7 @@
 | **Requisitos** | B-REQ-01 |
 | **Depende de** | FEATURE-0002.0001 (auth OIDC) |
 | **Entra depois** | FEATURE-0002.0004 (segregação/RLS) |
-| **User stories** | [US-0003](...) |
+| **User stories** | [US-0003](../user-stories/US-FEAT-0002.0002-0003-tenant-context-filtro.md) |
 | **🔒 Travada por** | — (livre) |
 | **Status** | ✅ Revisado (2026-11-26) |
 
@@ -39,7 +39,7 @@ autenticado — a base do isolamento multi-tenant (meta: incidente zero).
 
 | ID | História | Critérios |
 |---|---|---|
-| `US-FEAT-0002.0002-0003` | Derivar tenant_id do token e filtrar queries | 3 AC |
+| [US-FEAT-0002.0002-0003](../user-stories/US-FEAT-0002.0002-0003-tenant-context-filtro.md) | Derivar tenant_id do token e filtrar queries | 3 AC |
 
 ## 7. Critérios de aceite da feature (DoD)
 

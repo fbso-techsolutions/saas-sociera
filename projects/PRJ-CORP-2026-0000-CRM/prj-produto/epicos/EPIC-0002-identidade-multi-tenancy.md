@@ -26,10 +26,10 @@
 
 | Feature | Título | Stories |
 |---|---|---|
-| `FEATURE-0002.0001` | Autenticação OIDC (Keycloak) | — (sem card) |
-| `FEATURE-0002.0002` | Contexto de tenant (contexto autenticado) | — (sem card) |
-| `FEATURE-0002.0003` | RBAC (usuários, papéis, permissões) | — (sem card) |
-| `FEATURE-0002.0004` | Segregação e testes entre tenants | — (sem card) |
+| [FEATURE-0002.0001 — Autenticação OIDC](../features/FEATURE-0002.0001-autenticacao-oidc.md) | Autenticação OIDC (Keycloak) | [US-0001](../user-stories/US-FEAT-0002.0001-0001-realm-client-keycloak.md) · [US-0002](../user-stories/US-FEAT-0002.0001-0002-autenticacao-oidc-backend.md) |
+| [FEATURE-0002.0002 — Contexto de tenant](../features/FEATURE-0002.0002-contexto-tenant.md) | Contexto de tenant | [US-0003](../user-stories/US-FEAT-0002.0002-0003-tenant-context-filtro.md) |
+| [FEATURE-0002.0003 — RBAC](../features/FEATURE-0002.0003-rbac.md) | RBAC (usuários, papéis, permissões) | — (a criar) |
+| [FEATURE-0002.0004 — Segregação](../features/FEATURE-0002.0004-segregacao-multi-tenant.md) | Segregação e testes entre tenants | [US-0004](../user-stories/US-FEAT-0002.0004-0004-rls-isolamento.md) |
 
 ## 4. Decisões pendentes
 

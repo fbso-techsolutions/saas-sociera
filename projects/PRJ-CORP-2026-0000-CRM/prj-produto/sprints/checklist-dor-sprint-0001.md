@@ -17,5 +17,7 @@
 
 **Resultado:** 4/4 stories prontas (`✅ Revisado`) — aptas para a Sprint 1.
 
+> **Stories:** [US-0001](../user-stories/US-FEAT-0002.0001-0001-realm-client-keycloak.md) · [US-0002](../user-stories/US-FEAT-0002.0001-0002-autenticacao-oidc-backend.md) · [US-0003](../user-stories/US-FEAT-0002.0002-0003-tenant-context-filtro.md) · [US-0004](../user-stories/US-FEAT-0002.0004-0004-rls-isolamento.md).
+
 > Enablers (ENABLER-0001/0002/0003) seguem o DoR de Enabler (template-enabler-dor §2) — marcados
 > nos próprios cards.

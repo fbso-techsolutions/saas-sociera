@@ -39,13 +39,13 @@ operável. Esta sprint destrava todo o restante do MVP.
 
 | Item | SP/JS | Tipo | Tasks | Depende de | 🔒 Travada por |
 |---|---|---|---|---|---|
-| [ENABLER-0001 — Repositório e estrutura monorepo](../prj-tecnico/enablers/ENABLER-0001-repositorio-estrutura.md) | 3 | 🔧 Enabler | [TASK-0001](../prj-tecnico/tasks/TASK-0001-estrutura-monorepo.md) | — | — |
-| [ENABLER-0002 — Ambientes locais](../prj-tecnico/enablers/ENABLER-0002-ambientes-locais.md) | 3 | 🔧 Enabler | [TASK-0002](../prj-tecnico/tasks/TASK-0002-docker-compose.md) | ENABLER-0001 | — |
-| [ENABLER-0003 — CI](../prj-tecnico/enablers/ENABLER-0003-ci-github-actions.md) | 2 | 🔧 Enabler | [TASK-0003](../prj-tecnico/tasks/TASK-0003-workflow-ci.md) | ENABLER-0001 | — |
-| [US-FEAT-0002.0001-0001 — Realm + client Keycloak](../prj-produto/user-stories/US-FEAT-0002.0001-0001-realm-client-keycloak.md) | 3 | 💬 Story | [TASK-0004](../prj-tecnico/tasks/TASK-0004-realm-client-keycloak.md) | ENABLER-0002 | — |
-| [US-FEAT-0002.0001-0002 — Auth OIDC backend](../prj-produto/user-stories/US-FEAT-0002.0001-0002-autenticacao-oidc-backend.md) | 5 | 💬 Story | [TASK-0005](../prj-tecnico/tasks/TASK-0005-login-oidc.md) · [TASK-0006](../prj-tecnico/tasks/TASK-0006-protecao-rotas.md) | US-0002.0001-0001 | — |
-| [US-FEAT-0002.0002-0003 — Tenant context](../prj-produto/user-stories/US-FEAT-0002.0002-0003-tenant-context-filtro.md) | 5 | 💬 Story | [TASK-0007](../prj-tecnico/tasks/TASK-0007-filter-tenant.md) | US-0002.0001-0002 | — |
-| [US-FEAT-0002.0004-0004 — RLS + isolamento](../prj-produto/user-stories/US-FEAT-0002.0004-0004-rls-isolamento.md) | 5 | 💬 Story | [TASK-0008](../prj-tecnico/tasks/TASK-0008-rls.md) · [TASK-0009](../prj-tecnico/tasks/TASK-0009-teste-isolamento.md) | US-0002.0002-0003 | — |
+| [ENABLER-0001 — Repositório e estrutura monorepo](../../prj-tecnico/enablers/ENABLER-0001-repositorio-estrutura.md) | 3 | 🔧 Enabler | [TASK-0001](../../prj-tecnico/tasks/TASK-0001-estrutura-monorepo.md) | — | — |
+| [ENABLER-0002 — Ambientes locais](../../prj-tecnico/enablers/ENABLER-0002-ambientes-locais.md) | 3 | 🔧 Enabler | [TASK-0002](../../prj-tecnico/tasks/TASK-0002-docker-compose.md) | ENABLER-0001 | — |
+| [ENABLER-0003 — CI](../../prj-tecnico/enablers/ENABLER-0003-ci-github-actions.md) | 2 | 🔧 Enabler | [TASK-0003](../../prj-tecnico/tasks/TASK-0003-workflow-ci.md) | ENABLER-0001 | — |
+| [US-FEAT-0002.0001-0001 — Realm + client Keycloak](../user-stories/US-FEAT-0002.0001-0001-realm-client-keycloak.md) | 3 | 💬 Story | [TASK-0004](../../prj-tecnico/tasks/TASK-0004-realm-client-keycloak.md) | ENABLER-0002 | — |
+| [US-FEAT-0002.0001-0002 — Auth OIDC backend](../user-stories/US-FEAT-0002.0001-0002-autenticacao-oidc-backend.md) | 5 | 💬 Story | [TASK-0005](../../prj-tecnico/tasks/TASK-0005-login-oidc.md) · [TASK-0006](../../prj-tecnico/tasks/TASK-0006-protecao-rotas.md) | US-0002.0001-0001 | — |
+| [US-FEAT-0002.0002-0003 — Tenant context](../user-stories/US-FEAT-0002.0002-0003-tenant-context-filtro.md) | 5 | 💬 Story | [TASK-0007](../../prj-tecnico/tasks/TASK-0007-filter-tenant.md) | US-0002.0001-0002 | — |
+| [US-FEAT-0002.0004-0004 — RLS + isolamento](../user-stories/US-FEAT-0002.0004-0004-rls-isolamento.md) | 5 | 💬 Story | [TASK-0008](../../prj-tecnico/tasks/TASK-0008-rls.md) · [TASK-0009](../../prj-tecnico/tasks/TASK-0009-teste-isolamento.md) | US-0002.0002-0003 | — |
 | **Total** | **18 SP + 8 JS** | | | | |
 
 ### 2.2 Itens não incluídos

@@ -9,7 +9,7 @@
 | **Requisitos** | B-REQ-01 |
 | **Depende de** | FEATURE-0002.0002 (contexto de tenant) |
 | **Entra depois** | — |
-| **User stories** | [US-0004](...) |
+| **User stories** | [US-0004](../user-stories/US-FEAT-0002.0004-0004-rls-isolamento.md) |
 | **🔒 Travada por** | — (livre) |
 | **Status** | ✅ Revisado (2026-11-26) |
 
@@ -39,7 +39,7 @@ automatizado, que um tenant não acessa dados de outro — cumprindo o critério
 
 | ID | História | Critérios |
 |---|---|---|
-| `US-FEAT-0002.0004-0004` | Aplicar RLS e testar isolamento entre tenants | 3 AC |
+| [US-FEAT-0002.0004-0004](../user-stories/US-FEAT-0002.0004-0004-rls-isolamento.md) | Aplicar RLS e testar isolamento entre tenants | 3 AC |
 
 ## 7. Critérios de aceite da feature (DoD)
 
