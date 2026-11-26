@@ -6,7 +6,7 @@
 | Campo | Valor |
 |---|---|
 | Projeto | FBSO CRM · PRJ-CORP-2026-0000-CRM |
-| Status | 🚧 squad a preencher (PENDENCY-0006) |
+| Status | ✅ squad definido (nomes em §2) · alocação % parcial (5 papéis a completar em §3) |
 | Atualizado | 2026-11-26 |
 
 ## 1. Como funciona
@@ -19,31 +19,30 @@
 
 ## 2. Time do projeto
 
-> 🚧 **A preencher** — o squad do CRM será definido (PENDENCY-0006). Papéis prováveis seguindo a
-> org (espelhar o time do `portal-fbso`/`saas-materiae`), sem nomes até decisão.
-
 | Papel | Nome | Alocação |
 |---|---|---|
-| **PM/PO** | — (a preencher) | — |
-| **Tech lead** | — (a preencher) | — |
-| **Arquiteto de Soluções** | — (a preencher) | — |
-| **Engenharia (backend/frontend)** | — (a preencher) | — |
-| **Infraestrutura / Cloud** | — (a preencher) | — |
-| **QA / Testes** | — (a preencher) | — |
-| **Segurança da Informação** | — (a preencher) | sob demanda |
-| **Comercial** | — (a preencher) | — |
+| **PM/PO** | Marcela Bianco | — |
+| **Tech lead** | Romeu Augusto | — |
+| **Arquiteto de Soluções** | Ricardo David | — |
+| **Engenharia backend** | Thiago Daniel | — |
+| **Engenharia frontend** | Felipe Luiz | — |
+| **Infraestrutura / Cloud** | Lourival Louro | 25% |
+| **QA / Testes** | Patricia Varra | 25% |
+| **Segurança da Informação** | Daniel Vini | sob demanda |
+| **Comercial** | Ursula Companero | sob demanda |
 
 ## 3. Alocação (capacidade do projeto)
 
-> 🚧 A preencher quando o squad for definido.
+> ⚠️ **% de alocação a completar** (PM/PO, Tech lead, Arquiteto, Eng. backend/frontend) — necessário
+> para calcular a capacidade da Sprint 1. Infra/QA já preenchidos (25% cada).
 
 ## 4. Parâmetros
 
 | Parâmetro | Valor |
 |---|---|
-| Duração da sprint | — (a definir) |
-| Data de início | — (a definir) |
+| Duração da sprint | 2 semanas (10 dias úteis) |
+| Data de início | 07/12/2026 |
 
 ## 5. Pendências deste documento
 
-1. 🚧 **PENDENCY-0006** — squad do CRM a definir (papéis, nomes e alocação).
+1. ✅ **PENDENCY-0006** — squad definido (nomes em §2); alocação % de 5 papéis a completar (§3).
