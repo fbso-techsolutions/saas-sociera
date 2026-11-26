@@ -32,7 +32,7 @@ paths:
         - nova chave + email já existente no tenant → **409 Conflict** (duplicado).
         `tenant_id` vem das claims do token JWT (Keycloak) — **nunca** de header/parâmetro.
       security:
-        - OAuth2ClientCredentials: [lead:write]
+        - OAuth2Bearer: []
       parameters:
         - name: Idempotency-Key
           in: header
@@ -164,19 +164,14 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   securitySchemes:
-    OAuth2ClientCredentials:
-      type: oauth2
-      description: Machine-to-machine (portal → Sociera). O `tenant_id` vem das claims do token JWT.
-      flows:
-        clientCredentials:
-          tokenUrl: http://localhost:8080/realms/sociera/protocol/openid-connect/token
-          scopes:
-            lead:write: Enviar leads ao Sociera
     OAuth2Bearer:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      description: Usuário autenticado (CRM interno). O `tenant_id` vem das claims do token JWT.
+      description: |
+        Token JWT (OAuth2/OIDC via Keycloak auto-hospedado). O `tenant_id` vem das claims do token.
+        - Portal (machine-to-machine): obtém o token via **client credentials**.
+        - CRM (usuário): obtém o token via **authorization code**.
   schemas:
     Interest:
       type: string
