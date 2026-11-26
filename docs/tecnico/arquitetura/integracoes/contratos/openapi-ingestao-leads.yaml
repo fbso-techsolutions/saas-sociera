@@ -1,43 +1,43 @@
-# Contrato OpenAPI — Ingestão de leads (portal → Sociera)
-# Status: PROPOSTA (0.1.0) — 2026-11-26
-# ⚠️ PENDÊNCIA DE FECHAMENTO: campos exatos do lead (1:1 com o formulário do portal) e
-#    valores canônicos de origem — FEATURE-0009.0001 §8 (PM/PO + Comercial).
+# Contrato OpenAPI — Domínio de Leads (Sociera)
+# Status: PROPOSTA (0.2.0) — 2026-11-26
+# Serviço dono do domínio de Leads. Entrada: portal → Sociera (FEATURE-0006.0003).
 openapi: 3.1.0
 info:
-  title: API de Ingestão de Leads — Sociera
-  version: 0.1.0-proposta
+  title: API de Leads — Sociera
+  version: 0.2.0-proposta
   description: |
-    API de ENTRADA do Sociera: recebe leads capturados no portal corporativo
-    (FEATURE-0006.0003) e os persiste como Party (role LEAD) com origem de aquisição
-    rastreável (source/medium/campaign).
+    API do domínio de **Leads** do Sociera (serviço dono do domínio).
+    - **Entrada:** recebe leads do portal corporativo (FEATURE-0006.0003) e os persiste como
+      Party (role LEAD) com origem de aquisição rastreável.
+    - **Leitura:** listagem/detalhe para o CRM (consulta interna).
     Padrões: API-First · Port/Adapter (ACL) · contrato de solução (ADR-001) ·
-    idempotência (ADR-004) · LGPD (consentimento obrigatório).
+    idempotência (ADR-004) · LGPD (consentimento com evidência).
   contact:
     name: Eng — Sociera (PRJ-CORP-2026-0000-CRM)
 servers:
   - url: https://api.fbsosociera.com.br
     description: Base de homologação/produção a confirmar (domínio fbsosociera.com.br)
-security:
-  - OAuth2ClientCredentials: []
 tags:
   - name: leads
-    description: Ingestão de leads do portal
+    description: Ingestão e consulta de leads
 paths:
   /v1/leads:
     post:
       tags: [leads]
       summary: Registrar lead vindo do portal
       description: |
-        Recebe um lead do portal (formulário de contato/interesse/consultoria) e o persiste como
-        Party (role LEAD). Idempotente via header `Idempotency-Key`: reenvio com a mesma chave
-        retorna o mesmo lead, sem duplicar. Consentimento LGPD obrigatório (`consent=true`).
+        Recebe um lead do portal e o persiste como Party (role LEAD).
+        **Semântica de idempotência (header `Idempotency-Key`):**
+        - mesma chave (retry de rede) → **200 OK** com o lead original (não duplica);
+        - nova chave + email já existente no tenant → **409 Conflict** (duplicado).
+        `tenant_id` vem das claims do token JWT (Keycloak) — **nunca** de header/parâmetro.
       security:
         - OAuth2ClientCredentials: [lead:write]
       parameters:
         - name: Idempotency-Key
           in: header
           required: true
-          description: Chave de idempotência gerada pelo portal (UUID). Reenvios com a mesma chave não duplicam o lead.
+          description: Chave de idempotência gerada pelo portal (UUID). Mesma chave = mesmo lead (200).
           schema:
             type: string
           example: "portal-9f2c1e8a-4b1e-4c0a-9d1e-1a2b3c4d5e6f"
@@ -49,19 +49,19 @@ paths:
               $ref: "#/components/schemas/LeadCreate"
       responses:
         "201":
-          description: Lead criado (novo).
+          description: Lead criado (primeira vez).
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LeadCreated"
-        "202":
-          description: Lead aceito para processamento assíncrono (idempotência confirmada).
+                $ref: "#/components/schemas/Lead"
+        "200":
+          description: Lead já existente (mesma `Idempotency-Key` — retry). Retorna o original.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LeadCreated"
+                $ref: "#/components/schemas/Lead"
         "400":
-          description: Validação falhou (campos obrigatórios ausentes/inválidos ou consentimento ausente).
+          description: Validação falhou (campos obrigatórios ausentes/inválidos ou consentimento sem evidência).
           content:
             application/json:
               schema:
@@ -73,13 +73,91 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
         "409":
-          description: Lead já existente (mesma chave de idempotência ou email duplicado no tenant).
+          description: Email já existente no tenant (nova `Idempotency-Key` — não é retry).
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LeadCreated"
+                $ref: "#/components/schemas/Lead"
         "503":
           description: Sociera indisponível — o portal registra pendência de envio (retry).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      tags: [leads]
+      summary: Listar leads (CRM interno)
+      description: Lista leads com paginação e filtros. Uso interno do CRM (Bearer).
+      security:
+        - OAuth2Bearer: []
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [NEW, QUALIFIED, IN_PROGRESS, CONVERTED, LOST]
+        - name: interest
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/Interest"
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        "200":
+          description: Página de leads.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadCollection"
+        "401":
+          description: Não autenticado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /v1/leads/{leadId}:
+    get:
+      tags: [leads]
+      summary: Detalhar lead
+      description: Retorna um lead pelo identificador. Uso interno do CRM (Bearer).
+      security:
+        - OAuth2Bearer: []
+      parameters:
+        - name: leadId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "LEAD-0001"
+      responses:
+        "200":
+          description: Lead localizado.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lead"
+        "404":
+          description: Lead não encontrado.
           content:
             application/json:
               schema:
@@ -88,77 +166,217 @@ components:
   securitySchemes:
     OAuth2ClientCredentials:
       type: oauth2
+      description: Machine-to-machine (portal → Sociera). O `tenant_id` vem das claims do token JWT.
       flows:
         clientCredentials:
           tokenUrl: https://auth.fbsosociera.com.br/realms/sociera/protocol/openid-connect/token
           scopes:
             lead:write: Enviar leads ao Sociera
+    OAuth2Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Usuário autenticado (CRM interno). O `tenant_id` vem das claims do token JWT.
   schemas:
+    Interest:
+      type: string
+      enum: [EDUCACAO, CONTABILIDADE, VAREJO, ECONOMIA_CIRCULAR, CRM, CONSULTORIA]
+      description: Produto/interesse do lead (catálogo do portal).
+    CompanySize:
+      type: string
+      enum: [MICRO, PEQUENA, MEDIA, GRANDE]
+      description: Faixa de porte da empresa (qualificação B2B).
     LeadCreate:
       type: object
       description: Lead enviado pelo portal (formulário de contato/interesse/consultoria).
-      required: [name, email, interest, consent]
+      required: [name, email, interest, consent, consent_version, consent_timestamp]
       properties:
         name:
           type: string
-          description: Nome do contato.
+          minLength: 2
+          maxLength: 200
           example: "Maria Souza"
         email:
           type: string
           format: email
-          description: E-mail de contato (chave de deduplicação por tenant).
+          maxLength: 254
+          description: E-mail de contato — chave de deduplicação por tenant.
           example: "maria.souza@empresa.com.br"
         phone:
           type: string
-          description: Telefone de contato (opcional).
-          example: "+55 11 99999-0000"
+          maxLength: 20
+          description: Telefone (opcional) — normalizado em E.164 no backend (não é chave de dedup isolada).
+          example: "+5511999990000"
         company:
           type: string
-          description: Empresa/organização do contato (opcional; PF/PJ).
+          maxLength: 200
           example: "Empresa Exemplo Ltda"
-        interest:
+        tax_id:
           type: string
-          description: Produto/interesse do lead (catálogo do portal).
-          enum: [EDUCACAO, CONTABILIDADE, VAREJO, ECONOMIA_CIRCULAR, CRM, CONSULTORIA]
-          example: "CRM"
+          maxLength: 18
+          description: CPF/CNPJ do contato/empresa (qualificação B2B — opcional).
+          example: "12.345.678/0001-90"
+        company_size:
+          $ref: "#/components/schemas/CompanySize"
+        role:
+          type: string
+          maxLength: 100
+          description: Cargo do contato (roteamento SDR × Closer).
+          example: "CFO"
+        interest:
+          $ref: "#/components/schemas/Interest"
         message:
           type: string
-          description: Mensagem/contexto do contato (opcional).
+          maxLength: 2000
           example: "Quero saber mais sobre o plano de CRM."
         source:
           type: string
-          description: Origem de aquisição — utm_source.
+          maxLength: 200
+          description: utm_source.
           example: "google"
         medium:
           type: string
-          description: Origem de aquisição — utm_medium.
+          maxLength: 200
+          description: utm_medium.
           example: "cpc"
         campaign:
           type: string
-          description: Origem de aquisição — utm_campaign.
+          maxLength: 200
+          description: utm_campaign.
           example: "q4-crm-lancamento"
+        utm_term:
+          type: string
+          maxLength: 200
+          example: "crm-b2b"
+        utm_content:
+          type: string
+          maxLength: 200
+          example: "banner-home"
+        landing_page_url:
+          type: string
+          format: uri
+          maxLength: 2048
+          description: URL de aterrissagem (ROI de anúncios).
+          example: "https://fbso.com.br/solucoes/sociera"
+        referrer:
+          type: string
+          format: uri
+          maxLength: 2048
+          example: "https://www.google.com"
         consent:
           type: boolean
-          description: Consentimento LGPD (art. 7º-I). Deve ser `true`; `false` rejeita (400).
+          description: Consentimento LGPD (art. 7º-I). Deve ser `true` — `false` rejeita (400).
           example: true
-    LeadCreated:
+        consent_version:
+          type: string
+          maxLength: 20
+          description: Versão do termo de privacidade aceito (evidência LGPD).
+          example: "v1.2-2026"
+        consent_timestamp:
+          type: string
+          format: date-time
+          description: Data/hora do aceite do termo (evidência LGPD).
+          example: "2026-11-26T14:30:00Z"
+        ip_address:
+          type: string
+          format: ipv4
+          description: IP de origem (evidência LGPD — opcional).
+          example: "189.15.22.10"
+    Lead:
       type: object
-      description: Resultado da ingestão do lead.
-      required: [id, status]
+      description: Lead persistido no Sociera.
+      required: [id, status, name, email, interest, consent, consent_version, consent_timestamp, created_at]
       properties:
         id:
           type: string
-          description: Identificador do lead no Sociera.
           example: "LEAD-0001"
         status:
           type: string
-          description: Estado do lead após a ingestão.
-          enum: [NEW, DUPLICATED]
+          enum: [NEW, QUALIFIED, IN_PROGRESS, CONVERTED, LOST]
           example: "NEW"
+        name:
+          type: string
+          example: "Maria Souza"
+        email:
+          type: string
+          example: "maria.souza@empresa.com.br"
+        phone:
+          type: string
+          example: "+5511999990000"
+        company:
+          type: string
+          example: "Empresa Exemplo Ltda"
+        tax_id:
+          type: string
+          example: "12.345.678/0001-90"
+        company_size:
+          $ref: "#/components/schemas/CompanySize"
+        role:
+          type: string
+          example: "CFO"
+        interest:
+          $ref: "#/components/schemas/Interest"
+        message:
+          type: string
+          example: "Quero saber mais sobre o plano de CRM."
+        source:
+          type: string
+          example: "google"
+        medium:
+          type: string
+          example: "cpc"
+        campaign:
+          type: string
+          example: "q4-crm-lancamento"
+        utm_term:
+          type: string
+          example: "crm-b2b"
+        utm_content:
+          type: string
+          example: "banner-home"
+        landing_page_url:
+          type: string
+          example: "https://fbso.com.br/solucoes/sociera"
+        referrer:
+          type: string
+          example: "https://www.google.com"
+        consent:
+          type: boolean
+          example: true
+        consent_version:
+          type: string
+          example: "v1.2-2026"
+        consent_timestamp:
+          type: string
+          format: date-time
+          example: "2026-11-26T14:30:00Z"
+        ip_address:
+          type: string
+          example: "189.15.22.10"
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-11-26T14:30:01Z"
         href:
           type: string
-          description: Link de acesso ao lead no Sociera.
           example: "https://app.fbsosociera.com.br/leads/LEAD-0001"
+    LeadCollection:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Lead"
+        total:
+          type: integer
+          example: 128
+        limit:
+          type: integer
+          example: 20
+        offset:
+          type: integer
+          example: 0
     Error:
       type: object
       required: [code, message]
@@ -171,4 +389,4 @@ components:
           example: "Campo obrigatório ausente ou inválido."
         details:
           type: string
-          example: "O campo 'consent' deve ser true (LGPD)."
+          example: "O consentimento exige consent_version e consent_timestamp."

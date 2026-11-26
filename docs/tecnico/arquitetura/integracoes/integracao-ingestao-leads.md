@@ -8,7 +8,7 @@
 | **Contrato** | [openapi-ingestao-leads.yaml](contratos/openapi-ingestao-leads.yaml) |
 | **Dono** | Eng (Thiago Daniel) + PM/PO (Marcela Bianco) |
 | **Consumido por** | [portal-fbso FEATURE-0006.0003](https://github.com/fbso-techsolutions/portal-fbso) (envio de leads) |
-| **Status** | 📝 **PROPOSTA** — fechamento do contrato com PM/PO + Comercial pendente (§7) |
+| **Status** | 📝 **PROPOSTA (0.2.0)** — payload, dedup, tenant e endpoints decididos (§7); URL base/escopos a confirmar com o Arquiteto |
 
 ## 1. Objetivo e escopo (integração unidirecional)
 
@@ -83,27 +83,37 @@ sequenceDiagram
 ## 5. Contrato
 
 - **`POST /v1/leads`** com header **`Idempotency-Key`** (obrigatório) e corpo `LeadCreate`
-  (`name`, `email`, `interest`, `consent` obrigatórios; `phone`, `company`, `message`,
-  `source`/`medium`/`campaign` opcionais).
-- **201** lead criado · **202** aceito assíncrono · **400** validação/consentimento ausente ·
-  **401** token inválido · **409** duplicado · **503** indisponível.
+  (`name`, `email`, `interest`, `consent`, `consent_version`, `consent_timestamp` obrigatórios;
+  `phone`, `company`, `tax_id`, `company_size`, `role`, `message`, UTMs completos, `ip_address`
+  opcionais).
+- **Semântica de idempotência:** mesma `Idempotency-Key` (retry) → **200** com o lead original ·
+  nova chave + email já existente no tenant → **409** · primeira vez → **201**.
+- **Multi-tenancy:** o `tenant_id` vem das **claims do token JWT** (Keycloak) — nunca de
+  header/parâmetro (explícito na descrição do securityScheme).
+- **Leitura (dono do domínio de Leads):** `GET /v1/leads` (listar com filtros/paginação) e
+  `GET /v1/leads/{leadId}` (detalhar) — uso interno do CRM (Bearer).
 - **Evento de saída:** `lead.created` (versionado) — alimenta auditoria e futuras integrações.
 
 ## 6. Resiliência e erros
 
 | Situação | Resposta |
 |---|---|
-| Reenvio com mesma `Idempotency-Key` | 409 `DUPLICATED` (não duplica) |
-| Email já existente no tenant | 409 `DUPLICATED` (dedup) |
-| Consentimento `false`/ausente | 400 (LGPD) |
+| Reenvio com mesma `Idempotency-Key` (retry) | **200** com o lead original (não duplica) |
+| Nova chave + email já existente no tenant | **409** `DUPLICATED` (dedup) |
+| Consentimento `false`/sem evidência (version/timestamp) | 400 (LGPD) |
 | Sociera indisponível | portal registra pendência + retry |
 | Falha no processamento | Outbox reentrega (at-least-once, consumidor idempotente) |
 
-## 7. Pendências de fechamento (PM/PO + Comercial)
+**Dedup:** chave primária = `email` por tenant; telefone normalizado em E.164 (não é chave de
+dedup isolada no MVP — evita falso-positivo de leads que compartilham número).
 
-1. **Campos exatos do lead** — 1:1 com o formulário do portal (FEATURE-0009.0001 §8).
-2. **Valores canônicos de `interest`** — catálogo final (Educatio/Fiscalia/Mercator/Materiae/Sociera/Consultoria).
-3. **URL base + escopos OAuth2** (client credentials) — com o Arquiteto (Ricardo David).
+## 7. Pendências de fechamento
+
+1. ✅ **Campos do lead** — decidido: payload enriquecido (UTMs completos, evidência LGPD
+   `consent_version`/`consent_timestamp`/`ip_address`, qualificação B2B `tax_id`/`company_size`/`role`).
+2. ✅ **`interest`** — catálogo canônico: `EDUCACAO` · `CONTABILIDADE` · `VAREJO` ·
+   `ECONOMIA_CIRCULAR` · `CRM` · `CONSULTORIA`.
+3. `[ ]` **URL base + escopos OAuth2** (client credentials) — com o Arquiteto (Ricardo David) e Infra.
 
 ## 8. Rastreabilidade
 
