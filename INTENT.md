@@ -42,7 +42,7 @@ React + TS (web) · Keycloak auto-hospedado.
 ## 5. Decisões ainda abertas
 
 1. ✅ ~~Nome de marca~~ — **Sociera** (2026-11-26).
-2. ✅ ~~Domínio próprio~~ — **sociera.com.br** (2026-11-26).
+2. ✅ ~~Domínio próprio~~ — **fbsosociera.com.br** (2026-11-26).
 3. `[ ]` **Kestra** — componente novo de plataforma; exige ADR antes de entrar no MVP.
 4. ✅ ~~Mensageria dedicada~~ — Outbox + scheduler + webhook HTTP, sem broker ([ADR-004](docs/tecnico/arquitetura/adrs/adr-004-mensageria-outbox-scheduler.md)).
 5. `[ ]` **Frontend mobile** — React Native (evolução); pasta reservada em `frontend/mobile/`.

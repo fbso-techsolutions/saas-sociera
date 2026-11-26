@@ -66,7 +66,7 @@ primeira validação é a operação comercial da **FBSO Tech Services** (dogfoo
 
 | Frente | Repo | Contrato | Status |
 |---|---|---|---|
-| Ingestão de leads do portal → CRM | [portal-fbso](https://github.com/fbso-techsolutions/portal-fbso) (FEATURE-0006.0003) ↔ [saas-crm](https://github.com/fbso-techsolutions/saas-crm) | OpenAPI + SDK + webhook (ACL) | 📝 a definir |
+| Ingestão de leads do portal → CRM | [portal-fbso](https://github.com/fbso-techsolutions/portal-fbso) (FEATURE-0006.0003) ↔ [saas-sociera](https://github.com/fbso-techsolutions/saas-sociera) | OpenAPI + SDK + webhook (ACL) | 📝 a definir |
 
 > Segue o [ADR-002 (projeto transversal)](https://github.com/fbso-techsolutions/platform-standards/blob/main/governance/adrs/adr-002-projeto-transversal.md):
 > o portal é o **lar**; esta frente é a integração controlada pelo contrato de solução.

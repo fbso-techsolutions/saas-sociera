@@ -18,7 +18,7 @@
 | — | CRM alvo | ✅ **Sociera** — CRM próprio (simples), novo produto (origem: PENDENCY-0018 do portal-fbso) | 2026-11-23 |
 | — | ID do projeto | ✅ `PRJ-CORP-2026-0000-CRM` (área `CORP`) | 2026-11-26 |
 | PENDENCY-0001 | Nome de marca | ✅ **Sociera** | 2026-11-26 |
-| PENDENCY-0002 | Domínio próprio | ✅ **sociera.com.br** | 2026-11-26 |
+| PENDENCY-0002 | Domínio próprio | ✅ **fbsosociera.com.br** | 2026-11-26 |
 | PENDENCY-0004 | Mensageria dedicada | ✅ **Outbox + scheduler Quarkus + webhook HTTP** (sem broker no MVP); Kafka/RabbitMQ só se volume exigir — [ADR-004](../../docs/tecnico/arquitetura/adrs/adr-004-mensageria-outbox-scheduler.md) | 2026-11-26 |
 | PENDENCY-0006 | Time/squad do CRM | ✅ **definido e alocado** — nomes + % em [equipe.md](equipe.md) | 2026-11-26 |
 
