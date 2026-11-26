@@ -14,15 +14,19 @@ info:
     idempotência (ADR-004) · LGPD (consentimento com evidência).
   contact:
     name: Eng — Sociera (PRJ-CORP-2026-0000-CRM)
+  license:
+    name: Proprietary
+    url: https://fbso.com.br/legal
 servers:
-  - url: http://localhost:8080
-    description: Base local de dev; homolog/produção a confirmar (domínio fbsosociera.com.br)
+  - url: https://api.fbsosociera.com.br
+    description: Base de homologação/produção (domínio fbsosociera.com.br)
 tags:
   - name: leads
     description: Ingestão e consulta de leads
 paths:
   /v1/leads:
     post:
+      operationId: createLead
       tags: [leads]
       summary: Registrar lead vindo do portal
       description: |
@@ -85,6 +89,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
     get:
+      operationId: listLeads
       tags: [leads]
       summary: Listar leads (CRM interno)
       description: Lista leads com paginação e filtros. Uso interno do CRM (Bearer).
@@ -137,6 +142,7 @@ paths:
                 $ref: "#/components/schemas/Error"
   /v1/leads/{leadId}:
     get:
+      operationId: getLead
       tags: [leads]
       summary: Detalhar lead
       description: Retorna um lead pelo identificador. Uso interno do CRM (Bearer).
