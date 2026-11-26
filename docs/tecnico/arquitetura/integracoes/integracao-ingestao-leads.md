@@ -8,13 +8,14 @@
 | **Contrato** | [openapi-ingestao-leads.yaml](contratos/openapi-ingestao-leads.yaml) |
 | **Dono** | Eng (Thiago Daniel) + PM/PO (Marcela Bianco) |
 | **Consumido por** | [portal-fbso FEATURE-0006.0003](https://github.com/fbso-techsolutions/portal-fbso) (envio de leads) |
-| **Status** | 📝 **PROPOSTA (0.2.0)** — payload, dedup, tenant e endpoints decididos (§7); URL base/escopos a confirmar com o Arquiteto |
+| **Status** | 📝 **PROPOSTA (0.3.0)** — modelagem (offerings/contact/category/status), escopo CRUD e segurança decididos (§7); URL base/escopos a confirmar |
 
-## 1. Objetivo e escopo (integração unidirecional)
+## 1. Objetivo e escopo (CRUD — domínio de Leads)
 
-- **Entrada (síncrona/assíncrona):** o portal envia um lead (`POST /v1/leads`) e o Sociera o
-  persiste como Party (role `LEAD`) com origem de aquisição (`source`/`medium`/`campaign`) e
-  consentimento LGPD. Idempotente via `Idempotency-Key` (dedup de reenvio).
+- **Ingestão (`POST /v1/leads`):** o portal envia um lead e o Sociera o persiste como Party
+  (role `LEAD`) com origem de aquisição e evidência de privacidade (LGPD). Idempotente via
+  `Idempotency-Key`.
+- **Consulta (`GET /v1/leads` e `/v1/leads/{leadId}`):** listagem e detalhe para o CRM interno.
 
 ## 2. Visão da integração
 
@@ -82,17 +83,18 @@ sequenceDiagram
 
 ## 5. Contrato
 
-- **`POST /v1/leads`** com header **`Idempotency-Key`** (obrigatório) e corpo `LeadCreate`
-  (`name`, `email`, `interest`, `consent`, `consent_version`, `consent_timestamp` obrigatórios;
-  `phone`, `company`, `tax_id`, `company_size`, `role`, `message`, UTMs completos, `ip_address`
-  opcionais).
-- **Semântica de idempotência:** mesma `Idempotency-Key` (retry) → **200** com o lead original ·
-  nova chave + email já existente no tenant → **409** · primeira vez → **201**.
-- **Multi-tenancy:** o `tenant_id` vem das **claims do token JWT** (Keycloak) — nunca de
-  header/parâmetro (explícito na descrição do securityScheme).
-- **Leitura (dono do domínio de Leads):** `GET /v1/leads` (listar com filtros/paginação) e
-  `GET /v1/leads/{leadId}` (detalhar) — uso interno do CRM (Bearer).
-- **Evento de saída:** `lead.created` (versionado) — alimenta auditoria e futuras integrações.
+- **`POST /v1/leads`** (`ingestLead`) — corpo `LeadIngestionRequest` (`contact` + `interest` +
+  `privacy` obrigatórios; `organization`/`message`/`acquisition` opcionais) + header
+  `Idempotency-Key` (obrigatório) e `X-Correlation-ID` (opcional).
+- **`GET /v1/leads`** (`listLeads`) — listagem com filtros (`status`/`category`/`email`) e paginação.
+- **`GET /v1/leads/{leadId}`** (`getLead`) — detalhe.
+- **Idempotência (distinta da dedup):** mesma chave + mesmo conteúdo → **200** (replay, header
+  `Idempotency-Replayed`) · mesma chave + conteúdo diferente → **409** · primeira vez → **201**.
+- **Dedup:** email por tenant → associa à Party existente (status `ASSOCIATED`); telefone
+  normalizado E.164 (não é chave isolada).
+- **Multi-tenancy:** `tenant_id` das **claims do token JWT** (Keycloak) — nunca de header/parâmetro.
+- **Erros:** RFC 9457 (`application/problem+json`).
+- **Evento de saída:** `lead.created` (versionado).
 
 ## 6. Resiliência e erros
 
@@ -109,11 +111,12 @@ dedup isolada no MVP — evita falso-positivo de leads que compartilham número)
 
 ## 7. Pendências de fechamento
 
-1. ✅ **Campos do lead** — decidido: payload enriquecido (UTMs completos, evidência LGPD
-   `consent_version`/`consent_timestamp`/`ip_address`, qualificação B2B `tax_id`/`company_size`/`role`).
-2. ✅ **`interest`** — catálogo canônico: `EDUCACAO` · `CONTABILIDADE` · `VAREJO` ·
-   `ECONOMIA_CIRCULAR` · `CRM` · `CONSULTORIA`.
-3. `[ ]` **URL base + escopos OAuth2** (client credentials) — com o Arquiteto (Ricardo David) e Infra.
+1. ✅ **Modelagem (P3–P6)** — catálogo unificado `offerings` (SaaS + consultoria) · `contact`
+   sempre pessoa (INDIVIDUAL) + `organization` = empresa B2B · `category` só macro
+   (`SAAS`/`CONSULTING`/`PARTNERSHIP`/`OTHER`) · `status` = `NEW`/`ASSOCIATED`.
+2. ✅ **Escopo (P7)** — API CRUD: `POST` (ingestão) + `GET` (listar/detalhar).
+3. ✅ **Segurança (P1)** — `http bearer` (sem `tokenUrl`); client credentials documentado na descrição.
+4. `[ ]` **URL base + escopos definitivos** — com o Arquiteto (Ricardo David) e Infra (Lourival Louro).
 
 ## 8. Rastreabilidade
 

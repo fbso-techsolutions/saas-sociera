@@ -1,98 +1,216 @@
-# Contrato OpenAPI — Domínio de Leads (Sociera)
-# Status: PROPOSTA (0.2.0) — 2026-11-26
-# Serviço dono do domínio de Leads. Entrada: portal → Sociera (FEATURE-0006.0003).
 openapi: 3.1.0
 info:
   title: API de Leads — Sociera
-  version: 0.2.0-proposta
+  version: 0.3.0-proposta
+  summary: Ingestão e consulta de leads (CRUD) do Sociera.
   description: |
-    API do domínio de **Leads** do Sociera (serviço dono do domínio).
-    - **Entrada:** recebe leads do portal corporativo (FEATURE-0006.0003) e os persiste como
-      Party (role LEAD) com origem de aquisição rastreável.
-    - **Leitura:** listagem/detalhe para o CRM (consulta interna).
-    Padrões: API-First · Port/Adapter (ACL) · contrato de solução (ADR-001) ·
-    idempotência (ADR-004) · LGPD (consentimento com evidência).
+    API do domínio de Leads do Sociera.
+    - **POST** `/v1/leads`: ingestão de manifestações de interesse do portal e canais autorizados.
+    - **GET** `/v1/leads` e `/v1/leads/{leadId}`: consulta (listagem/detalhe) para o CRM interno.
+
+    O lead é associado a uma Party (pessoa ou organização) e ao papel LEAD.
+    Diretrizes:
+      - API-First e contrato OpenAPI 3.1.
+      - Party Model: Party + PartyRole.
+      - Multi-tenancy determinado pelo contexto de autenticação — nunca por um tenantId
+        livremente informado pelo consumidor.
+      - Idempotência por `Idempotency-Key`; deduplicação de contatos tratada separadamente.
+      - Minimização de dados e registro de evidências de privacidade conforme a base legal.
   contact:
-    name: Eng — Sociera (PRJ-CORP-2026-0000-CRM)
+    name: Engenharia — Sociera
   license:
-    name: Proprietary
+    name: Uso interno FBSO
     url: https://fbso.com.br/legal
+
 servers:
   - url: https://api.fbsosociera.com.br
-    description: Base de homologação/produção (domínio fbsosociera.com.br)
+    description: URL proposta; domínio e ambiente a confirmar.
+
+security:
+  - OAuth2Bearer: []
+
 tags:
   - name: leads
-    description: Ingestão e consulta de leads
+    description: Ingestão e consulta de leads.
+
 paths:
   /v1/leads:
     post:
-      operationId: createLead
       tags: [leads]
+      operationId: ingestLead
       summary: Registrar lead vindo do portal
       description: |
-        Recebe um lead do portal e o persiste como Party (role LEAD).
-        **Semântica de idempotência (header `Idempotency-Key`):**
-        - mesma chave (retry de rede) → **200 OK** com o lead original (não duplica);
-        - nova chave + email já existente no tenant → **409 Conflict** (duplicado).
-        `tenant_id` vem das claims do token JWT (Keycloak) — **nunca** de header/parâmetro.
+        Recebe uma manifestação de interesse e cria/associa os registros no núcleo Party.
+        A `Idempotency-Key` identifica uma tentativa lógica de envio: repetir a mesma chave com o
+        mesmo conteúdo retorna o resultado original (200); reutilizar a mesma chave com conteúdo
+        diferente retorna 409. Deduplicação por e-mail é regra de negócio distinta (associa à Party).
       security:
         - OAuth2Bearer: []
       parameters:
         - name: Idempotency-Key
           in: header
           required: true
-          description: Chave de idempotência gerada pelo portal (UUID). Mesma chave = mesmo lead (200).
+          description: Chave única por tentativa lógica de submissão (UUID). Retenção definida pela política operacional.
           schema:
             type: string
+            minLength: 16
+            maxLength: 128
           example: "portal-9f2c1e8a-4b1e-4c0a-9d1e-1a2b3c4d5e6f"
+        - name: X-Correlation-ID
+          in: header
+          required: false
+          description: Identificador de correlação para rastreamento distribuído.
+          schema:
+            type: string
+            maxLength: 128
+          example: "b7d7f6d2-4dcb-4b9b-9a6c-4f0a3e1c7b10"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/LeadCreate"
+              $ref: "#/components/schemas/LeadIngestionRequest"
+            examples:
+              b2bSaaS:
+                summary: Contato de organização interessado em solução SaaS
+                value:
+                  contact:
+                    name: Maria Souza
+                    email: maria.souza@empresa.com.br
+                    phone: "+55 11 99999-0000"
+                    jobTitle: Diretora Financeira
+                  organization:
+                    name: Empresa Exemplo Ltda
+                    website: https://www.empresa.com.br
+                    industry: SERVICOS
+                    companySize: MEDIUM
+                  interest:
+                    category: SAAS
+                    offerings: [CONTABILIDADE, CRM]
+                    description: Gostaria de conhecer as funcionalidades e os planos.
+                  message:
+                    subject: Demonstração das plataformas
+                    body: Temos interesse em avaliar as soluções para nossa operação.
+                    preferredContactChannel: EMAIL
+                  acquisition:
+                    source: google
+                    medium: cpc
+                    campaign: q4-crm-lancamento
+                    referrerUrl: https://www.google.com/
+                    landingPageUrl: https://www.fbso.com.br/solucoes
+                    capturedAt: "2026-11-26T10:30:00-03:00"
+                  privacy:
+                    privacyNoticeVersion: "1.0"
+                    privacyNoticeUrl: https://www.fbso.com.br/privacidade
+                    acknowledgedAt: "2026-11-26T10:30:00-03:00"
+                    marketing:
+                      accepted: false
+              b2bConsulting:
+                summary: Pessoa física interessada em consultoria
+                value:
+                  contact:
+                    name: João da Silva
+                    email: joao@example.com
+                    phone: "+55 11 98888-7777"
+                  interest:
+                    category: CONSULTING
+                    offerings: [CLOUD_DEVOPS, SOFTWARE_DEVELOPMENT]
+                    description: Preciso de apoio para modernização de aplicações.
+                  message:
+                    body: Gostaria de conversar com um especialista.
+                    preferredContactChannel: WHATSAPP
+                  acquisition:
+                    source: direct
+                    medium: website
+                    landingPageUrl: https://www.fbso.com.br/contato
+                    capturedAt: "2026-11-26T10:30:00-03:00"
+                  privacy:
+                    privacyNoticeVersion: "1.0"
+                    privacyNoticeUrl: https://www.fbso.com.br/privacidade
+                    acknowledgedAt: "2026-11-26T10:30:00-03:00"
       responses:
         "201":
-          description: Lead criado (primeira vez).
+          description: Lead criado e registrado.
+          headers:
+            Location:
+              description: URI do recurso criado.
+              schema:
+                type: string
+                format: uri
+            Idempotency-Replayed:
+              description: Indica se o resultado foi recuperado de uma requisição anterior.
+              schema:
+                type: boolean
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Lead"
+                $ref: "#/components/schemas/LeadIngestionResponse"
         "200":
-          description: Lead já existente (mesma `Idempotency-Key` — retry). Retorna o original.
+          description: Requisição repetida com a mesma chave/conteúdo; retorna o resultado original.
+          headers:
+            Idempotency-Replayed:
+              schema:
+                type: boolean
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Lead"
+                $ref: "#/components/schemas/LeadIngestionResponse"
         "400":
-          description: Validação falhou (campos obrigatórios ausentes/inválidos ou consentimento sem evidência).
+          description: Requisição malformada ou cabeçalho obrigatório ausente.
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Problem"
         "401":
-          description: Token inválido/expirado ou escopo insuficiente.
+          description: Token ausente, inválido ou expirado.
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Problem"
+        "403":
+          description: Credencial autenticada sem permissão para ingestão de leads.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "409":
-          description: Email já existente no tenant (nova `Idempotency-Key` — não é retry).
+          description: Conflito de idempotência — mesma chave com conteúdo diferente.
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/Lead"
+                $ref: "#/components/schemas/Problem"
+        "422":
+          description: Dados semanticamente inválidos ou regras de validação não atendidas.
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "429":
+          description: Limite de requisições excedido.
+          headers:
+            Retry-After:
+              description: Tempo em segundos recomendado antes de nova tentativa.
+              schema:
+                type: integer
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
         "503":
-          description: Sociera indisponível — o portal registra pendência de envio (retry).
-          content:
-            application/json:
+          description: Serviço temporariamente indisponível; consumidor pode tentar novamente.
+          headers:
+            Retry-After:
               schema:
-                $ref: "#/components/schemas/Error"
+                type: integer
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
     get:
-      operationId: listLeads
       tags: [leads]
+      operationId: listLeads
       summary: Listar leads (CRM interno)
-      description: Lista leads com paginação e filtros. Uso interno do CRM (Bearer).
+      description: Lista leads com paginação e filtros. Uso interno do CRM.
       security:
         - OAuth2Bearer: []
       parameters:
@@ -100,18 +218,18 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            enum: [NEW, QUALIFIED, IN_PROGRESS, CONVERTED, LOST]
-        - name: interest
+            $ref: "#/components/schemas/LeadStatus"
+        - name: category
           in: query
           required: false
           schema:
-            $ref: "#/components/schemas/Interest"
+            $ref: "#/components/schemas/InterestCategory"
         - name: email
           in: query
           required: false
           schema:
             type: string
+            format: email
         - name: limit
           in: query
           required: false
@@ -137,15 +255,15 @@ paths:
         "401":
           description: Não autenticado.
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Problem"
   /v1/leads/{leadId}:
     get:
-      operationId: getLead
       tags: [leads]
+      operationId: getLead
       summary: Detalhar lead
-      description: Retorna um lead pelo identificador. Uso interno do CRM (Bearer).
+      description: Retorna um lead pelo identificador. Uso interno do CRM.
       security:
         - OAuth2Bearer: []
       parameters:
@@ -154,7 +272,7 @@ paths:
           required: true
           schema:
             type: string
-          example: "LEAD-0001"
+            format: uuid
       responses:
         "200":
           description: Lead localizado.
@@ -165,9 +283,10 @@ paths:
         "404":
           description: Lead não encontrado.
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Problem"
+
 components:
   securitySchemes:
     OAuth2Bearer:
@@ -178,189 +297,335 @@ components:
         Token JWT (OAuth2/OIDC via Keycloak auto-hospedado). O `tenant_id` vem das claims do token.
         - Portal (machine-to-machine): obtém o token via **client credentials**.
         - CRM (usuário): obtém o token via **authorization code**.
+
   schemas:
-    Interest:
-      type: string
-      enum: [EDUCACAO, CONTABILIDADE, VAREJO, ECONOMIA_CIRCULAR, CRM, CONSULTORIA]
-      description: Produto/interesse do lead (catálogo do portal).
-    CompanySize:
-      type: string
-      enum: [MICRO, PEQUENA, MEDIA, GRANDE]
-      description: Faixa de porte da empresa (qualificação B2B).
-    LeadCreate:
+    LeadIngestionRequest:
       type: object
-      description: Lead enviado pelo portal (formulário de contato/interesse/consultoria).
-      required: [name, email, interest, consent, consent_version, consent_timestamp]
+      additionalProperties: false
+      required: [contact, interest, privacy]
+      properties:
+        contact:
+          $ref: "#/components/schemas/LeadContact"
+        organization:
+          $ref: "#/components/schemas/LeadOrganization"
+        interest:
+          $ref: "#/components/schemas/LeadInterest"
+        message:
+          $ref: "#/components/schemas/LeadMessage"
+        acquisition:
+          $ref: "#/components/schemas/LeadAcquisition"
+        privacy:
+          $ref: "#/components/schemas/LeadPrivacy"
+
+    LeadContact:
+      type: object
+      additionalProperties: false
+      required: [name, email]
+      description: Pessoa de contato — sempre pessoa física (Party INDIVIDUAL).
       properties:
         name:
           type: string
           minLength: 2
           maxLength: 200
-          examples: ["Maria Souza"]
+          description: Nome da pessoa de contato.
+          example: Maria Souza
         email:
           type: string
           format: email
           maxLength: 254
-          description: E-mail de contato — chave de deduplicação por tenant.
-          examples: ["maria.souza@empresa.com.br"]
+          description: E-mail principal para retorno.
+          example: maria.souza@empresa.com.br
         phone:
           type: string
-          maxLength: 20
-          description: Telefone (opcional) — normalizado em E.164 no backend (não é chave de dedup isolada).
-          examples: ["+5511999990000"]
-        company:
+          maxLength: 32
+          description: Telefone de contato, preferencialmente E.164.
+          example: "+55 11 99999-0000"
+        mobilePhone:
+          type: string
+          maxLength: 32
+          description: Celular, quando diferente do telefone principal.
+        jobTitle:
+          type: string
+          maxLength: 120
+          description: Cargo ou função do contato.
+        department:
+          type: string
+          maxLength: 120
+          description: Departamento do contato.
+        linkedinUrl:
+          type: string
+          format: uri
+          maxLength: 500
+          description: URL pública do perfil profissional, quando fornecida.
+
+    LeadOrganization:
+      type: object
+      additionalProperties: false
+      description: Empresa de origem do contato (contexto B2B — Party ORGANIZATION). Opcional.
+      properties:
+        name:
           type: string
           maxLength: 200
-          examples: ["Empresa Exemplo Ltda"]
-        tax_id:
+          description: Razão social ou nome da empresa.
+        tradeName:
           type: string
-          maxLength: 18
-          description: CPF/CNPJ do contato/empresa (qualificação B2B — opcional).
-          examples: ["12.345.678/0001-90"]
-        company_size:
-          $ref: "#/components/schemas/CompanySize"
-        role:
+          maxLength: 200
+          description: Nome fantasia.
+        taxId:
+          type: string
+          maxLength: 32
+          description: CPF/CNPJ ou identificador fiscal. Não exigir no formulário público.
+        website:
+          type: string
+          format: uri
+          maxLength: 500
+        industry:
+          type: string
+          maxLength: 80
+          description: Código do segmento econômico conforme catálogo configurado.
+          example: SERVICOS
+        companySize:
+          type: string
+          enum: [MICRO, SMALL, MEDIUM, LARGE, ENTERPRISE, UNKNOWN]
+        address:
+          $ref: "#/components/schemas/PostalAddress"
+
+    PostalAddress:
+      type: object
+      additionalProperties: false
+      properties:
+        country:
+          type: string
+          minLength: 2
+          maxLength: 2
+          description: Código ISO 3166-1 alpha-2.
+          example: BR
+        state:
           type: string
           maxLength: 100
-          description: Cargo do contato (roteamento SDR × Closer).
-          examples: ["CFO"]
-        interest:
-          $ref: "#/components/schemas/Interest"
-        message:
+        city:
           type: string
-          maxLength: 2000
-          examples: ["Quero saber mais sobre o plano de CRM."]
+          maxLength: 120
+        postalCode:
+          type: string
+          maxLength: 20
+        street:
+          type: string
+          maxLength: 200
+        number:
+          type: string
+          maxLength: 30
+        complement:
+          type: string
+          maxLength: 120
+        neighborhood:
+          type: string
+          maxLength: 120
+
+    InterestCategory:
+      type: string
+      enum: [SAAS, CONSULTING, PARTNERSHIP, OTHER]
+      description: Categoria macro de interesse.
+
+    LeadInterest:
+      type: object
+      additionalProperties: false
+      required: [category]
+      properties:
+        category:
+          $ref: "#/components/schemas/InterestCategory"
+        offerings:
+          type: array
+          uniqueItems: true
+          maxItems: 20
+          description: |
+            Códigos do catálogo unificado de ofertas (SaaS + serviços de consultoria).
+            Catálogo: EDUCACAO, CONTABILIDADE, VAREJO, ECONOMIA_CIRCULAR, CRM (SaaS) ·
+            SOFTWARE_DEVELOPMENT, CLOUD_DEVOPS, SUPPORT_SERVICES, ARTIFICIAL_INTELLIGENCE (consultoria).
+          items:
+            type: string
+            minLength: 2
+            maxLength: 80
+          examples:
+            - [CONTABILIDADE, CRM]
+            - [CLOUD_DEVOPS, SOFTWARE_DEVELOPMENT]
+        description:
+          type: string
+          maxLength: 3000
+          description: Contexto adicional sobre a necessidade ou solução procurada.
+
+    LeadMessage:
+      type: object
+      additionalProperties: false
+      properties:
+        subject:
+          type: string
+          maxLength: 200
+        body:
+          type: string
+          maxLength: 5000
+        preferredContactChannel:
+          type: string
+          enum: [EMAIL, PHONE, WHATSAPP, ANY]
+        preferredContactPeriod:
+          type: string
+          enum: [BUSINESS_HOURS, MORNING, AFTERNOON, EVENING, ANY]
+
+    LeadAcquisition:
+      type: object
+      additionalProperties: false
+      description: Dados de atribuição e rastreabilidade da aquisição.
+      properties:
         source:
           type: string
           maxLength: 200
-          description: utm_source.
-          examples: ["google"]
+          example: google
         medium:
           type: string
           maxLength: 200
-          description: utm_medium.
-          examples: ["cpc"]
+          example: cpc
         campaign:
           type: string
           maxLength: 200
-          description: utm_campaign.
-          examples: ["q4-crm-lancamento"]
-        utm_term:
+        campaignId:
           type: string
           maxLength: 200
-          examples: ["crm-b2b"]
-        utm_content:
+        term:
           type: string
-          maxLength: 200
-          examples: ["banner-home"]
-        landing_page_url:
+          maxLength: 500
+        content:
           type: string
-          format: uri
-          maxLength: 2048
-          description: URL de aterrissagem (ROI de anúncios).
-          examples: ["https://fbso.com.br/solucoes/sociera"]
-        referrer:
+          maxLength: 500
+        referrerUrl:
           type: string
           format: uri
-          maxLength: 2048
-          examples: ["https://www.google.com"]
-        consent:
-          type: boolean
-          description: Consentimento LGPD (art. 7º-I). Deve ser `true` — `false` rejeita (400).
-          examples: [true]
-        consent_version:
+          maxLength: 2000
+        landingPageUrl:
           type: string
-          maxLength: 20
-          description: Versão do termo de privacidade aceito (evidência LGPD).
-          examples: ["v1.2-2026"]
-        consent_timestamp:
+          format: uri
+          maxLength: 2000
+        clickIds:
+          type: object
+          description: Identificadores de clique de plataformas de publicidade, quando aplicáveis.
+          additionalProperties:
+            type: string
+            maxLength: 1000
+        capturedAt:
           type: string
           format: date-time
-          description: Data/hora do aceite do termo (evidência LGPD).
-          examples: ["2026-11-26T14:30:00Z"]
-        ip_address:
+          description: Data/hora da captura no canal de origem.
+        firstTouchAt:
           type: string
-          format: ipv4
-          description: IP de origem (evidência LGPD — opcional).
-          examples: ["189.15.22.10"]
-    Lead:
+          format: date-time
+          description: Primeira interação conhecida, se disponível no canal.
+
+    LeadPrivacy:
       type: object
-      description: Lead persistido no Sociera.
-      required: [id, status, name, email, interest, consent, consent_version, consent_timestamp, created_at]
+      additionalProperties: false
+      required: [privacyNoticeVersion, acknowledgedAt]
+      description: Evidências do aviso de privacidade apresentado no momento da coleta.
+      properties:
+        privacyNoticeVersion:
+          type: string
+          maxLength: 40
+          example: "1.0"
+        privacyNoticeUrl:
+          type: string
+          format: uri
+          maxLength: 1000
+        acknowledgedAt:
+          type: string
+          format: date-time
+          description: Data/hora em que o titular confirmou ciência do aviso.
+        marketing:
+          $ref: "#/components/schemas/MarketingPreference"
+
+    MarketingPreference:
+      type: object
+      additionalProperties: false
+      description: |
+        Preferência específica para comunicações de marketing. Não é autorização genérica para
+        qualquer tratamento de dados; a base legal deve ser definida pela operação responsável.
+      properties:
+        accepted:
+          type: boolean
+          default: false
+        purpose:
+          type: string
+          maxLength: 300
+          example: Receber novidades e comunicações sobre produtos e serviços FBSO.
+        recordedAt:
+          type: string
+          format: date-time
+
+    LeadStatus:
+      type: string
+      enum: [NEW, ASSOCIATED, QUALIFIED, IN_PROGRESS, CONVERTED, LOST]
+      description: |
+        Ciclo de vida do lead. Na ingestão, retorna NEW (novo) ou ASSOCIATED (dedup).
+        QUALIFIED/CONVERTED/... são da gestão comercial (visíveis via GET).
+
+    LeadIngestionResponse:
+      type: object
+      additionalProperties: false
+      required: [id, partyId, status, createdAt]
       properties:
         id:
           type: string
-          examples: ["LEAD-0001"]
+          format: uuid
+          description: Identificador do registro Lead no Sociera.
+        partyId:
+          type: string
+          format: uuid
+          description: Identificador da Party associada.
         status:
-          type: string
-          enum: [NEW, QUALIFIED, IN_PROGRESS, CONVERTED, LOST]
-          examples: ["NEW"]
-        name:
-          type: string
-          examples: ["Maria Souza"]
-        email:
-          type: string
-          examples: ["maria.souza@empresa.com.br"]
-        phone:
-          type: string
-          examples: ["+5511999990000"]
-        company:
-          type: string
-          examples: ["Empresa Exemplo Ltda"]
-        tax_id:
-          type: string
-          examples: ["12.345.678/0001-90"]
-        company_size:
-          $ref: "#/components/schemas/CompanySize"
-        role:
-          type: string
-          examples: ["CFO"]
-        interest:
-          $ref: "#/components/schemas/Interest"
-        message:
-          type: string
-          examples: ["Quero saber mais sobre o plano de CRM."]
-        source:
-          type: string
-          examples: ["google"]
-        medium:
-          type: string
-          examples: ["cpc"]
-        campaign:
-          type: string
-          examples: ["q4-crm-lancamento"]
-        utm_term:
-          type: string
-          examples: ["crm-b2b"]
-        utm_content:
-          type: string
-          examples: ["banner-home"]
-        landing_page_url:
-          type: string
-          examples: ["https://fbso.com.br/solucoes/sociera"]
-        referrer:
-          type: string
-          examples: ["https://www.google.com"]
-        consent:
+          $ref: "#/components/schemas/LeadStatus"
+        duplicate:
           type: boolean
-          examples: [true]
-        consent_version:
-          type: string
-          examples: ["v1.2-2026"]
-        consent_timestamp:
+          description: Indica se a manifestação foi associada a um registro/Party existente.
+        createdAt:
           type: string
           format: date-time
-          examples: ["2026-11-26T14:30:00Z"]
-        ip_address:
-          type: string
-          examples: ["189.15.22.10"]
-        created_at:
-          type: string
-          format: date-time
-          examples: ["2026-11-26T14:30:01Z"]
         href:
           type: string
-          examples: ["https://app.fbsosociera.com.br/leads/LEAD-0001"]
+          format: uri
+          description: URI para consulta do recurso.
+
+    Lead:
+      type: object
+      additionalProperties: false
+      required: [id, partyId, status, contact, interest, privacy, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        partyId:
+          type: string
+          format: uuid
+        status:
+          $ref: "#/components/schemas/LeadStatus"
+        contact:
+          $ref: "#/components/schemas/LeadContact"
+        organization:
+          $ref: "#/components/schemas/LeadOrganization"
+        interest:
+          $ref: "#/components/schemas/LeadInterest"
+        message:
+          $ref: "#/components/schemas/LeadMessage"
+        acquisition:
+          $ref: "#/components/schemas/LeadAcquisition"
+        privacy:
+          $ref: "#/components/schemas/LeadPrivacy"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        href:
+          type: string
+          format: uri
+
     LeadCollection:
       type: object
       required: [items, total]
@@ -371,23 +636,58 @@ components:
             $ref: "#/components/schemas/Lead"
         total:
           type: integer
-          examples: [128]
+          example: 128
         limit:
           type: integer
-          examples: [20]
+          example: 20
         offset:
           type: integer
-          examples: [0]
-    Error:
+          example: 0
+
+    Problem:
       type: object
-      required: [code, message]
+      description: Formato de erro inspirado em RFC 9457 (Problem Details).
+      required: [type, title, status, detail]
       properties:
+        type:
+          type: string
+          format: uri-reference
+          example: https://api.fbsosociera.com.br/problems/validation-error
+        title:
+          type: string
+          example: Validation failed
+        status:
+          type: integer
+          minimum: 400
+          maximum: 599
+          example: 422
+        detail:
+          type: string
+          example: Um ou mais campos não atendem às regras de validação.
+        instance:
+          type: string
+          format: uri-reference
         code:
           type: string
-          examples: ["ERR_VALIDATION_FAILED"]
+          description: Código estável de erro definido pelo Sociera.
+          example: LEAD_VALIDATION_FAILED
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/FieldError"
+        correlationId:
+          type: string
+
+    FieldError:
+      type: object
+      required: [field, message]
+      properties:
+        field:
+          type: string
+          example: contact.email
         message:
           type: string
-          examples: ["Campo obrigatório ausente ou inválido."]
-        details:
+          example: Deve ser um endereço de e-mail válido.
+        code:
           type: string
-          examples: ["O consentimento exige consent_version e consent_timestamp."]
+          example: INVALID_FORMAT
