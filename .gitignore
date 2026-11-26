@@ -1,0 +1,25 @@
+# Java / Quarkus
+target/
+*.class
+.mvn/
+.gradle/
+
+# Node / React
+node_modules/
+dist/
+build/
+.vite/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Logs
+*.log
