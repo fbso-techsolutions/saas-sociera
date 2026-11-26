@@ -31,4 +31,4 @@
 
 ## 4. Decisões pendentes
 
-1. `[ ]` **ADR de plataforma** para Kestra (blueprint + operação) — [PENDENCY-0003](../../../pendencias.md).
+1. `[ ]` **ADR de plataforma** para Kestra (blueprint + operação) — [PENDENCY-0003](../../pendencias.md).

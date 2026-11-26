@@ -32,4 +32,4 @@
 
 ## 4. Decisões pendentes
 
-1. `[ ]` Primeiro SaaS a integrar (Mercator ou Fiscalia) — [PENDENCY (a registrar)](../../../pendencias.md).
+1. `[ ]` Primeiro SaaS a integrar (Mercator ou Fiscalia) — [PENDENCY (a registrar)](../../pendencias.md).

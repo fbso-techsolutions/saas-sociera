@@ -33,4 +33,4 @@
 
 ## 4. Decisões pendentes
 
-1. `[ ]` Estratégia de isolamento: `tenant_id` + filtros, RLS, ou combinação — [PENDENCY (a registrar)](../../../pendencias.md).
+1. ✅ Isolamento em **duas camadas**: Hibernate `@Filter` (aplicação) + RLS `SET LOCAL app.current_tenant` (banco) — [ADR-002](../../../../docs/tecnico/arquitetura/adrs/adr-002-multi-tenant-duas-camadas.md).

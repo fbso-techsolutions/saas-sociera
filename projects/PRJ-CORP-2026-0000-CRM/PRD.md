@@ -91,7 +91,11 @@ primeira validação é a operação comercial da **FBSO Tech Services** (dogfoo
 ## 7. Decisões pendentes deste documento
 
 1. ✅ **ID do projeto** — `PRJ-CORP-2026-0000-CRM` (área `CORP`) definido.
-2. `[ ]` **Nome de marca** do CRM — [PENDENCY-0001](pendencias.md).
-3. `[ ]` **Domínio próprio** — [PENDENCY-0002](pendencias.md).
-4. `[ ]` **Kestra** (componente novo de plataforma) — [PENDENCY-0003](pendencias.md).
-5. `[ ]` **Time/squad** do CRM — [PENDENCY-0006](pendencias.md).
+2. ✅ **Stack** — Java 25 · PostgreSQL 17+ · Keycloak · Flyway ([ADR-001](../../docs/tecnico/arquitetura/adrs/adr-001-stack-crm.md)); sugestões de Java 21/PG 16 **rejeitadas**.
+3. ✅ **Multi-tenancy** (duas camadas) — [ADR-002](../../docs/tecnico/arquitetura/adrs/adr-002-multi-tenant-duas-camadas.md).
+4. ✅ **Etapas de pipeline** (tabela relacional) — [ADR-003](../../docs/tecnico/arquitetura/adrs/adr-003-pipeline-stages-relacional.md).
+5. ✅ **Mensageria MVP** (Outbox + scheduler + webhook, sem broker) — [ADR-004](../../docs/tecnico/arquitetura/adrs/adr-004-mensageria-outbox-scheduler.md).
+6. `[ ]` **Nome de marca** do CRM — [PENDENCY-0001](pendencias.md).
+7. `[ ]` **Domínio próprio** — [PENDENCY-0002](pendencias.md).
+8. `[ ]` **Kestra** (componente novo de plataforma) — [PENDENCY-0003](pendencias.md).
+9. `[ ]` **Time/squad** do CRM — [PENDENCY-0006](pendencias.md).

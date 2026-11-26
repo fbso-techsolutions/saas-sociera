@@ -30,4 +30,4 @@
 
 ## 4. Decisões pendentes
 
-1. `[ ]` Etapas em tabela própria (integridade) vs JSONB (flexibilidade) — avaliar no refinamento.
+1. ✅ Etapas em **tabela própria** (`pipeline_stages` + `deal_stage_history`) — não JSONB — [ADR-003](../../../../docs/tecnico/arquitetura/adrs/adr-003-pipeline-stages-relacional.md).

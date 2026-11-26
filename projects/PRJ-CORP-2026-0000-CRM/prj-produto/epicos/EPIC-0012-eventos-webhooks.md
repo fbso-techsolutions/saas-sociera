@@ -33,3 +33,4 @@
 ## 4. Decisões pendentes
 
 1. `[ ]` Nomenclatura de eventos consolidada (ex.: `lead.created`, `deal.stage_changed`).
+2. ✅ Relay da Outbox: scheduler Quarkus + webhook HTTP (sem broker no MVP) — [ADR-004](../../../../docs/tecnico/arquitetura/adrs/adr-004-mensageria-outbox-scheduler.md).

@@ -6,6 +6,7 @@
 |---|---|---|
 | [domain.md](domain.md) | Modelo de domínio — Party Model e entidades | 📝 Rascunho |
 | [arquitetura/](arquitetura/README.md) | Visão lógica, stack, responsabilidades, multi-tenancy, eventos | 📝 Rascunho |
+| [arquitetura/adrs/](arquitetura/adrs/INDEX.md) | ADRs do produto — decisões arquiteturais | ✅ 4 decididas |
 
 > 📌 Os **enablers** e **runways** (entrega) vivem no projeto:
 > [projects/PRJ-CORP-2026-0000-CRM/prj-tecnico/](../../projects/PRJ-CORP-2026-0000-CRM/prj-tecnico).

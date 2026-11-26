@@ -32,3 +32,4 @@
 ## 4. Decisões pendentes
 
 1. `[ ]` Campos obrigatórios mínimos do Deal (responsável, próxima atividade).
+2. ✅ Histórico de movimentação de etapa: `deal_stage_history` (tempo em cada fase) — [ADR-003](../../../../docs/tecnico/arquitetura/adrs/adr-003-pipeline-stages-relacional.md).
