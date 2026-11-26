@@ -10,6 +10,7 @@
 |---|---|---|---|---|
 | PENDENCY-0003 | Kestra como componente de plataforma — exige ADR + blueprint na `platform-standards` antes de entrar no MVP | Arquiteto + Tech lead | — | ⬜ aberta |
 | PENDENCY-0005 | Frontend mobile (React Native) — evolução; estrutura reservada em `frontend/mobile/` | PM/PO + Engenharia | — | ⬜ aberta |
+| PENDENCY-0008 | Aplicar os 3 rulesets org-level na `fbso-techsolutions` (`develop` · `release/*` · `main`). **Ordem:** (1) criar times `sociera`+`devops` → (2) rulesets `release/*` e `main` → (3) ruleset `develop` só após o CI (ENABLER-0003) com check `lint → typecheck → test`. **Dependências:** time `sociera` no CODEOWNERS (review de code owner) · `bypass_actors` do back-merge | Arquiteto + Tech lead + Infra | — | ⬜ aberta |
 
 ## Respondidas
 
