@@ -10,8 +10,8 @@ comercial e, em evolução, atendimento (tickets/SLA). Primeira validação: ope
 ## Status
 
 🚧 **Em planejamento** — repositório esqueleto. Estrutura criada; desenvolvimento ainda não
-iniciado. Fonte de produto: plano em `.temporaria/ideias/crm/` (a conformar e promover para
-[`docs/`](docs/README.md)).
+iniciado. Fonte de produto: [`docs/`](docs/README.md) — conformada a partir do plano em
+`.temporaria/ideias/crm/`.
 
 ## Onde está o quê
 
@@ -34,4 +34,4 @@ Keycloak auto-hospedado — MVP em Docker Compose. K8s + ArgoCD + Helm = alvo Sa
 ## Regras
 
 - "Promover o genérico, manter o específico" — ver [platform-standards/standards/](https://github.com/fbso-techsolutions/platform-standards).
-- Visão e escopo: [docs/README.md](docs/README.md) (a conformar a partir do plano).
+- Visão e escopo: [docs/README.md](docs/README.md) · projeto: [PRJ-CORP-2026-0000-CRM](projects/PRJ-CORP-2026-0000-CRM).

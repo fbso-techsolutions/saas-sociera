@@ -21,7 +21,7 @@
 | Quando a tarefa é… | Leia | O que responde |
 |---|---|---|
 | Iniciar a sessão | [INTENT.md](INTENT.md) | O que é o CRM, para onde vai |
-| Visão / escopo / domínio | [docs/](docs/README.md) | Por quê, entidades, capacidades (a conformar) |
+| Visão / escopo / domínio | [docs/](docs/README.md) | Por quê, entidades, capacidades |
 | Entregas (PRD, backlog, sprints) | [projects/](projects) | O que será entregue (a criar) |
 | Escrever / alterar código | [platform-standards/standards/engineering/](https://github.com/fbso-techsolutions/platform-standards/tree/main/standards/engineering) · [agile/](https://github.com/fbso-techsolutions/platform-standards/tree/main/standards/agile) | Padrões de código, commits, IDs |
 | Arquitetura / eventos / integrações | [platform-standards/standards/architecture/](https://github.com/fbso-techsolutions/platform-standards/tree/main/standards/architecture) | Monólito modular, Outbox/ACL, API-First |
@@ -31,10 +31,9 @@
 
 - **Não** inventar IDs, donos, datas ou escopo — usar `— (a preencher)`.
 - **Não** alterar `platform-standards/` sem decisão explícita (registrar ADR/pendência).
-- **Não** importar o plano de `.temporaria/ideias/crm/` para `docs/` sem conformar: IDs
-  `EP-01…` → `EPIC-{NNNN}` (cadeia `B-REQ → épico → feature → story`), stack (Java 25 ·
-  PostgreSQL 17+ · Flyway · Keycloak) e referências a `platform-standards` (Outbox, monólito
-  modular, integrações ADR-001/ADR-002, multi-tenancy/RLS/RBAC/auditoria).
+- O plano de `.temporaria/ideias/crm/` já foi **conformado** em `docs/` (IDs `EPIC-{NNNN}`,
+  stack Java 25 · PostgreSQL 17+ · Flyway · Keycloak, referências a `platform-standards`).
+  Futuras importações seguem o mesmo processo — nunca importar cru.
 
 ## 5. Stack do código (ao implementar)
 

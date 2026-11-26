@@ -31,8 +31,8 @@ depois, hub de relacionamento e integração dos SaaS **Educatio**, **Fiscalia**
 ## 3. Roadmap
 
 Fase 0 (preparação) → Fase 1 (core + FBSO Tech Services) → Fase 2 (atendimento/SLA + eventos) →
-Fase 3 (1ª integração vertical) → Fase 4 (comercialização SaaS). Detalhe e cortes: plano de
-implementação em `.temporaria/ideias/crm/` (a conformar em [`docs/`](docs/README.md)).
+Fase 3 (1ª integração vertical) → Fase 4 (comercialização SaaS). Detalhe e cortes:
+[`docs/`](docs/README.md) e [PRD](../projects/PRJ-CORP-2026-0000-CRM/PRD.md).
 
 ## 4. Stack
 
