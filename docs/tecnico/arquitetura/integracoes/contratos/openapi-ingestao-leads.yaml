@@ -328,18 +328,18 @@ components:
           minLength: 2
           maxLength: 200
           description: Nome da pessoa de contato.
-          example: Maria Souza
+          examples: ["Maria Souza"]
         email:
           type: string
           format: email
           maxLength: 254
           description: E-mail principal para retorno.
-          example: maria.souza@empresa.com.br
+          examples: ["maria.souza@empresa.com.br"]
         phone:
           type: string
           maxLength: 32
           description: Telefone de contato, preferencialmente E.164.
-          example: "+55 11 99999-0000"
+          examples: ["+55 11 99999-0000"]
         mobilePhone:
           type: string
           maxLength: 32
@@ -383,7 +383,7 @@ components:
           type: string
           maxLength: 80
           description: Código do segmento econômico conforme catálogo configurado.
-          example: SERVICOS
+          examples: ["SERVICOS"]
         companySize:
           type: string
           enum: [MICRO, SMALL, MEDIUM, LARGE, ENTERPRISE, UNKNOWN]
@@ -399,7 +399,7 @@ components:
           minLength: 2
           maxLength: 2
           description: Código ISO 3166-1 alpha-2.
-          example: BR
+          examples: ["BR"]
         state:
           type: string
           maxLength: 100
@@ -479,11 +479,11 @@ components:
         source:
           type: string
           maxLength: 200
-          example: google
+          examples: ["google"]
         medium:
           type: string
           maxLength: 200
-          example: cpc
+          examples: ["cpc"]
         campaign:
           type: string
           maxLength: 200
@@ -528,7 +528,7 @@ components:
         privacyNoticeVersion:
           type: string
           maxLength: 40
-          example: "1.0"
+          examples: ["1.0"]
         privacyNoticeUrl:
           type: string
           format: uri
@@ -553,7 +553,7 @@ components:
         purpose:
           type: string
           maxLength: 300
-          example: Receber novidades e comunicações sobre produtos e serviços FBSO.
+          examples: ["Receber novidades e comunicações sobre produtos e serviços FBSO."]
         recordedAt:
           type: string
           format: date-time
@@ -636,13 +636,13 @@ components:
             $ref: "#/components/schemas/Lead"
         total:
           type: integer
-          example: 128
+          examples: [128]
         limit:
           type: integer
-          example: 20
+          examples: [20]
         offset:
           type: integer
-          example: 0
+          examples: [0]
 
     Problem:
       type: object
@@ -652,25 +652,25 @@ components:
         type:
           type: string
           format: uri-reference
-          example: https://api.fbsosociera.com.br/problems/validation-error
+          examples: ["https://api.fbsosociera.com.br/problems/validation-error"]
         title:
           type: string
-          example: Validation failed
+          examples: ["Validation failed"]
         status:
           type: integer
           minimum: 400
           maximum: 599
-          example: 422
+          examples: [422]
         detail:
           type: string
-          example: Um ou mais campos não atendem às regras de validação.
+          examples: ["Um ou mais campos não atendem às regras de validação."]
         instance:
           type: string
           format: uri-reference
         code:
           type: string
           description: Código estável de erro definido pelo Sociera.
-          example: LEAD_VALIDATION_FAILED
+          examples: ["LEAD_VALIDATION_FAILED"]
         errors:
           type: array
           items:
@@ -684,10 +684,10 @@ components:
       properties:
         field:
           type: string
-          example: contact.email
+          examples: ["contact.email"]
         message:
           type: string
-          example: Deve ser um endereço de e-mail válido.
+          examples: ["Deve ser um endereço de e-mail válido."]
         code:
           type: string
-          example: INVALID_FORMAT
+          examples: ["INVALID_FORMAT"]
