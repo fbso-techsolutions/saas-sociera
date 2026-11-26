@@ -20,7 +20,7 @@ consumindo a `platform-standards`. Frontend dividido em `frontend/web/` +
 
 | Quando a tarefa é… | Leia | O que responde |
 |---|---|---|
-| Iniciar a sessão | [INTENT.md](INTENT.md) | O que é o CRM, para onde vai |
+| Iniciar a sessão | [INTENT.md](INTENT.md) | O que é a Sociera, para onde vai |
 | Visão / escopo / domínio | [docs/](docs/README.md) | Por quê, entidades, capacidades |
 | Entregas (PRD, backlog, sprints) | [projects/](projects) | O que será entregue (a criar) |
 | Escrever / alterar código | [platform-standards/standards/engineering/](https://github.com/fbso-techsolutions/platform-standards/tree/main/standards/engineering) · [agile/](https://github.com/fbso-techsolutions/platform-standards/tree/main/standards/agile) | Padrões de código, commits, IDs |
