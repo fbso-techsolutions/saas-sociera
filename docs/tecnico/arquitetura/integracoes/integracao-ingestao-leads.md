@@ -115,8 +115,8 @@ dedup isolada no MVP — evita falso-positivo de leads que compartilham número)
    sempre pessoa (INDIVIDUAL) + `organization` = empresa B2B · `category` só macro
    (`SAAS`/`CONSULTING`/`PARTNERSHIP`/`OTHER`) · `status` = `NEW`/`ASSOCIATED`.
 2. ✅ **Escopo (P7)** — API CRUD: `POST` (ingestão) + `GET` (listar/detalhar).
-3. ✅ **Segurança (P1)** — `http bearer` (sem `tokenUrl`); client credentials documentado na descrição.
-4. `[ ]` **URL base + escopos definitivos** — com o Arquiteto (Ricardo David) e Infra (Lourival Louro).
+3. ✅ **Segurança (P1)** — `oauth2` com `clientCredentials` (escopo `leads:write`) + `authorizationCode` (escopo `leads:read`).
+4. ✅ **URL base + escopos definitivos** — PRD/HML/DEV definidos + escopos `leads:read`/`leads:write` — [PENDENCY-0007](../../../../projects/PRJ-CORP-2026-0000-CRM/pendencias.md).
 
 ## 8. Rastreabilidade
 

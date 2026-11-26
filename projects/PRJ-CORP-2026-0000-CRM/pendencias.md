@@ -21,5 +21,6 @@
 | PENDENCY-0002 | Domínio próprio | ✅ **fbsosociera.com.br** | 2026-11-26 |
 | PENDENCY-0004 | Mensageria dedicada | ✅ **Outbox + scheduler Quarkus + webhook HTTP** (sem broker no MVP); Kafka/RabbitMQ só se volume exigir — [ADR-004](../../docs/tecnico/arquitetura/adrs/adr-004-mensageria-outbox-scheduler.md) | 2026-11-26 |
 | PENDENCY-0006 | Time/squad do CRM | ✅ **definido e alocado** — nomes + % em [equipe.md](equipe.md) | 2026-11-26 |
+| PENDENCY-0007 | URL base + escopos do contrato de leads | ✅ **PRD/HML/DEV** (`api.{,hml.,dev.}fbsosociera.com.br`) + escopos `leads:read`/`leads:write` — [contrato](../../docs/tecnico/arquitetura/integracoes/contratos/openapi-ingestao-leads.yaml) | 2026-11-26 |
 
 > **Ritual:** atualizar a cada decisão; dono deve existir no [equipe.md](equipe.md).

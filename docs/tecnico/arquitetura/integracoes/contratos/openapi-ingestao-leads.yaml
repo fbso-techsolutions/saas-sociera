@@ -24,10 +24,14 @@ info:
 
 servers:
   - url: https://api.fbsosociera.com.br
-    description: URL proposta; domínio e ambiente a confirmar.
+    description: Produção.
+  - url: https://api.hml.fbsosociera.com.br
+    description: Homologação.
+  - url: https://api.dev.fbsosociera.com.br
+    description: Desenvolvimento.
 
 security:
-  - OAuth2Bearer: []
+  - OAuth2: []
 
 tags:
   - name: leads
@@ -45,7 +49,7 @@ paths:
         mesmo conteúdo retorna o resultado original (200); reutilizar a mesma chave com conteúdo
         diferente retorna 409. Deduplicação por e-mail é regra de negócio distinta (associa à Party).
       security:
-        - OAuth2Bearer: []
+        - OAuth2: [leads:write]
       parameters:
         - name: Idempotency-Key
           in: header
@@ -212,7 +216,7 @@ paths:
       summary: Listar leads (CRM interno)
       description: Lista leads com paginação e filtros. Uso interno do CRM.
       security:
-        - OAuth2Bearer: []
+        - OAuth2: [leads:read]
       parameters:
         - name: status
           in: query
@@ -265,7 +269,7 @@ paths:
       summary: Detalhar lead
       description: Retorna um lead pelo identificador. Uso interno do CRM.
       security:
-        - OAuth2Bearer: []
+        - OAuth2: [leads:read]
       parameters:
         - name: leadId
           in: path
@@ -289,14 +293,20 @@ paths:
 
 components:
   securitySchemes:
-    OAuth2Bearer:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
       description: |
-        Token JWT (OAuth2/OIDC via Keycloak auto-hospedado). O `tenant_id` vem das claims do token.
-        - Portal (machine-to-machine): obtém o token via **client credentials**.
-        - CRM (usuário): obtém o token via **authorization code**.
+        OAuth2/OIDC via Keycloak auto-hospedado (realm `sociera`). O `tenant_id` vem das claims do token.
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.fbsosociera.com.br/realms/sociera/protocol/openid-connect/token
+          scopes:
+            leads:write: Ingestão de leads (portal → Sociera)
+        authorizationCode:
+          authorizationUrl: https://auth.fbsosociera.com.br/realms/sociera/protocol/openid-connect/auth
+          tokenUrl: https://auth.fbsosociera.com.br/realms/sociera/protocol/openid-connect/token
+          scopes:
+            leads:read: Consulta de leads (CRM interno)
 
   schemas:
     LeadIngestionRequest:
