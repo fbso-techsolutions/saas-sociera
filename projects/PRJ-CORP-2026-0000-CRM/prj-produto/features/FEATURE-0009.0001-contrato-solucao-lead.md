@@ -21,7 +21,7 @@ Release 2 do `portal-fbso` (FEATURE-0006.0003).
 ## 2. Escopo
 
 ### Entra
-- Contrato OpenAPI do recurso de ingestão de lead.
+- Contrato OpenAPI do recurso de ingestão de lead — [openapi-ingestao-leads.yaml](../../../../docs/tecnico/arquitetura/integracoes/contratos/openapi-ingestao-leads.yaml) + [doc de integração](../../../../docs/tecnico/arquitetura/integracoes/integracao-ingestao-leads.md).
 - Schema do lead (contato, produto/interesse, origem `source`/`medium`/`campaign`).
 
 ### Frentes (cross-repo)

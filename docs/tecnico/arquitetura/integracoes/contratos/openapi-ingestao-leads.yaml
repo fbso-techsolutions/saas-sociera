@@ -1,0 +1,174 @@
+# Contrato OpenAPI — Ingestão de leads (portal → Sociera)
+# Status: PROPOSTA (0.1.0) — 2026-11-26
+# ⚠️ PENDÊNCIA DE FECHAMENTO: campos exatos do lead (1:1 com o formulário do portal) e
+#    valores canônicos de origem — FEATURE-0009.0001 §8 (PM/PO + Comercial).
+openapi: 3.1.0
+info:
+  title: API de Ingestão de Leads — Sociera
+  version: 0.1.0-proposta
+  description: |
+    API de ENTRADA do Sociera: recebe leads capturados no portal corporativo
+    (FEATURE-0006.0003) e os persiste como Party (role LEAD) com origem de aquisição
+    rastreável (source/medium/campaign).
+    Padrões: API-First · Port/Adapter (ACL) · contrato de solução (ADR-001) ·
+    idempotência (ADR-004) · LGPD (consentimento obrigatório).
+  contact:
+    name: Eng — Sociera (PRJ-CORP-2026-0000-CRM)
+servers:
+  - url: https://api.fbsosociera.com.br
+    description: Base de homologação/produção a confirmar (domínio fbsosociera.com.br)
+security:
+  - OAuth2ClientCredentials: []
+tags:
+  - name: leads
+    description: Ingestão de leads do portal
+paths:
+  /v1/leads:
+    post:
+      tags: [leads]
+      summary: Registrar lead vindo do portal
+      description: |
+        Recebe um lead do portal (formulário de contato/interesse/consultoria) e o persiste como
+        Party (role LEAD). Idempotente via header `Idempotency-Key`: reenvio com a mesma chave
+        retorna o mesmo lead, sem duplicar. Consentimento LGPD obrigatório (`consent=true`).
+      security:
+        - OAuth2ClientCredentials: [lead:write]
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: Chave de idempotência gerada pelo portal (UUID). Reenvios com a mesma chave não duplicam o lead.
+          schema:
+            type: string
+          example: "portal-9f2c1e8a-4b1e-4c0a-9d1e-1a2b3c4d5e6f"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeadCreate"
+      responses:
+        "201":
+          description: Lead criado (novo).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadCreated"
+        "202":
+          description: Lead aceito para processamento assíncrono (idempotência confirmada).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadCreated"
+        "400":
+          description: Validação falhou (campos obrigatórios ausentes/inválidos ou consentimento ausente).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Token inválido/expirado ou escopo insuficiente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Lead já existente (mesma chave de idempotência ou email duplicado no tenant).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadCreated"
+        "503":
+          description: Sociera indisponível — o portal registra pendência de envio (retry).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  securitySchemes:
+    OAuth2ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.fbsosociera.com.br/realms/sociera/protocol/openid-connect/token
+          scopes:
+            lead:write: Enviar leads ao Sociera
+  schemas:
+    LeadCreate:
+      type: object
+      description: Lead enviado pelo portal (formulário de contato/interesse/consultoria).
+      required: [name, email, interest, consent]
+      properties:
+        name:
+          type: string
+          description: Nome do contato.
+          example: "Maria Souza"
+        email:
+          type: string
+          format: email
+          description: E-mail de contato (chave de deduplicação por tenant).
+          example: "maria.souza@empresa.com.br"
+        phone:
+          type: string
+          description: Telefone de contato (opcional).
+          example: "+55 11 99999-0000"
+        company:
+          type: string
+          description: Empresa/organização do contato (opcional; PF/PJ).
+          example: "Empresa Exemplo Ltda"
+        interest:
+          type: string
+          description: Produto/interesse do lead (catálogo do portal).
+          enum: [EDUCACAO, CONTABILIDADE, VAREJO, ECONOMIA_CIRCULAR, CRM, CONSULTORIA]
+          example: "CRM"
+        message:
+          type: string
+          description: Mensagem/contexto do contato (opcional).
+          example: "Quero saber mais sobre o plano de CRM."
+        source:
+          type: string
+          description: Origem de aquisição — utm_source.
+          example: "google"
+        medium:
+          type: string
+          description: Origem de aquisição — utm_medium.
+          example: "cpc"
+        campaign:
+          type: string
+          description: Origem de aquisição — utm_campaign.
+          example: "q4-crm-lancamento"
+        consent:
+          type: boolean
+          description: Consentimento LGPD (art. 7º-I). Deve ser `true`; `false` rejeita (400).
+          example: true
+    LeadCreated:
+      type: object
+      description: Resultado da ingestão do lead.
+      required: [id, status]
+      properties:
+        id:
+          type: string
+          description: Identificador do lead no Sociera.
+          example: "LEAD-0001"
+        status:
+          type: string
+          description: Estado do lead após a ingestão.
+          enum: [NEW, DUPLICATED]
+          example: "NEW"
+        href:
+          type: string
+          description: Link de acesso ao lead no Sociera.
+          example: "https://app.fbsosociera.com.br/leads/LEAD-0001"
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+          example: "ERR_VALIDATION_FAILED"
+        message:
+          type: string
+          example: "Campo obrigatório ausente ou inválido."
+        details:
+          type: string
+          example: "O campo 'consent' deve ser true (LGPD)."
